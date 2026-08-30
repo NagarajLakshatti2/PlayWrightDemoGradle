@@ -107,7 +107,7 @@ jobs:
         run: ./gradlew installPlaywrightBrowsers
 
       - name: Run tests
-        run: ./gradlew clean test -Denv=${{ matrix.environment }} -Dbrowser=${{ matrix.browser }} -Dheadless=true --rerun-tasks -x openExtentReport
+        run: ./gradlew clean test -Denv=${{ matrix.environment }} -Dbrowser=${{ matrix.browser }} -Dheadless=true --rerun-tasks
 
       - name: Upload Extent report
         if: always()
