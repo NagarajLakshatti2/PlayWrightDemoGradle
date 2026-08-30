@@ -1,7 +1,12 @@
 package web.pages;
 
 import com.microsoft.playwright.Page;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Component;
 
+@Component
+@Scope("cucumber-glue")
 public class LoginPage extends BasePage{
 
     private static final String USERNAME_INPUT = "#user-name";
@@ -9,6 +14,7 @@ public class LoginPage extends BasePage{
     private static final String SUBMIT_BUTTON = "#login-button";
     private static final String ERROR_BANNER = "[data-test='error']";
 
+    @Autowired
     public LoginPage(Page page) { super(page); }
 
     public void loginAs(String username, String password) {

@@ -1,7 +1,8 @@
-package stepdefinitions;
+package stepdefinitions.web;
 
 import com.microsoft.playwright.Page;
 import com.microsoft.playwright.options.WaitUntilState;
+import org.springframework.beans.factory.annotation.Autowired;
 import config.ConfigReader;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
@@ -10,23 +11,25 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import web.pages.LoginPage;
-import utils.PlaywrightManager;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 
-public class LoginSteps {
+public class LoginWebSteps {
 
-    private static final Logger log = LoggerFactory.getLogger(LoginSteps.class);
+    private static final Logger log = LoggerFactory.getLogger(LoginWebSteps.class);
+
+    @Autowired
+    private Page page;
+
     private LoginPage loginPage;
 
     @Given("the user is on the login page")
     public void the_user_is_on_the_login_page() {
         log.info("Navigating to login page: {}", ConfigReader.baseUrl());
-//        PlaywrightManager.getPage().navigate(ConfigReader.baseUrl());
-        PlaywrightManager.getPage().navigate(
-                ConfigReader.baseUrl(),
+        page.navigate(ConfigReader.baseUrl(),
+//        PlaywrightManager.getPage().navigate(ConfigReader.baseUrl(),
                 new Page.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED)
         );
-        loginPage = new LoginPage(PlaywrightManager.getPage());
+        loginPage = new LoginPage(page);
     }
 
     @When("they log in with {string} and {string}")

@@ -1,4 +1,4 @@
 package stepdefinitions.mobile;
 
-public class NavigationSteps {
+public class LoginMobileSteps {
 }

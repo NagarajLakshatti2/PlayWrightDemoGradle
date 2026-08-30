@@ -27,8 +27,8 @@ public class ConfigReader {
 //            loaded = true;
 
             String env = resolveEnv();
-            loadResourceInto(PROPERTIES, "config/config-common.properties", true);
-            loadResourceInto(PROPERTIES, "config/config-" + env + ".properties", false);
+            loadResourceInto(PROPERTIES, "config/common.properties", true);
+            loadResourceInto(PROPERTIES, "config/" + env + ".properties", false);
 
             loaded = true;
         }

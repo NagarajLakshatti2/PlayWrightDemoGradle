@@ -97,19 +97,32 @@ src/test/resources/
 
     But do not use clean in all 4 commands, or one run may delete another run’s report/output.
     Better:
-    .\gradlew.bat clean
-    Start-Process powershell -ArgumentList '-NoExit', '-Command', '.\gradlew.bat test -Denv=dev -Dbrowser=chromium --rerun-tasks'
-    Start-Process powershell -ArgumentList '-NoExit', '-Command', '.\gradlew.bat test -Denv=dev -Dbrowser=edge --rerun-tasks'
-    Start-Process powershell -ArgumentList '-NoExit', '-Command', '.\gradlew.bat test -Denv=dev -Dbrowser=firefox --rerun-tasks'
-    Start-Process powershell -ArgumentList '-NoExit', '-Command', '.\gradlew.bat test -Denv=dev -Dbrowser=webkit --rerun-tasks'
-
-    -Denv=dev loads config-dev.properties
-    -Dbrowser=firefox overrides browser=webkit from config-dev.properties
 
     .\gradlew.bat clean
 
-    Start-Process powershell -WorkingDirectory "C:\Users\nagar\PayWrightWorkSpaceMaven" -ArgumentList '-NoExit', '-Command', '.\gradlew.bat test -Denv=prod -Dbrowser=chromium --rerun-tasks'
-    Start-Process powershell -WorkingDirectory "C:\Users\nagar\PayWrightWorkSpaceMaven" -ArgumentList '-NoExit', '-Command', '.\gradlew.bat test -Denv=dev -Dbrowser=edge --rerun-tasks'
-    Start-Process powershell -WorkingDirectory "C:\Users\nagar\PayWrightWorkSpaceMaven" -ArgumentList '-NoExit', '-Command', '.\gradlew.bat test -Denv=staging -Dbrowser=firefox --rerun-tasks'
-    Start-Process powershell -WorkingDirectory "C:\Users\nagar\PayWrightWorkSpaceMaven" -ArgumentList '-NoExit', '-Command', '.\gradlew.bat test -Denv=prod -Dbrowser=webkit --rerun-tasks'
+    Start-Process powershell -WorkingDirectory "D:\PlayWrightDemoGradle" -ArgumentList '-NoExit', '-Command', '.\gradlew.bat test -Denv=prod -Dbrowser=chromium --rerun-tasks'
+    Start-Process powershell -WorkingDirectory "D:\PlayWrightDemoGradle" -ArgumentList '-NoExit', '-Command', '.\gradlew.bat test -Denv=dev -Dbrowser=edge --rerun-tasks'
+    Start-Process powershell -WorkingDirectory "D:\PlayWrightDemoGradle" -ArgumentList '-NoExit', '-Command', '.\gradlew.bat test -Denv=staging -Dbrowser=firefox --rerun-tasks'
+    Start-Process powershell -WorkingDirectory "D:\PlayWrightDemoGradle" -ArgumentList '-NoExit', '-Command', '.\gradlew.bat test -Denv=prod -Dbrowser=webkit --rerun-tasks'
 
+======================
+
+    $project = "D:\PlayWrightDemoGradle"
+
+    Set-Location $project
+    .\gradlew.bat clean
+    .\gradlew.bat installPlaywrightBrowsers
+
+     Start-Process powershell -WorkingDirectory $project -ArgumentList '-NoExit', '-Command', '.\gradlew.bat test -Denv=prod -Dbrowser=chromium --rerun-tasks -x openExtentReport' -PassThru
+     Start-Process powershell -WorkingDirectory $project -ArgumentList '-NoExit', '-Command', '.\gradlew.bat test -Denv=dev -Dbrowser=edge --rerun-tasks -x openExtentReport' -PassThru
+     Start-Process powershell -WorkingDirectory $project -ArgumentList '-NoExit', '-Command', '.\gradlew.bat test -Denv=staging -Dbrowser=firefox --rerun-tasks -x openExtentReport' -PassThru
+     Start-Process powershell -WorkingDirectory $project -ArgumentList '-NoExit', '-Command', '.\gradlew.bat test -Denv=prod -Dbrowser=webkit --rerun-tasks -x openExtentReport' -PassThru
+
+    Wait-Process -Id $p1.Id, $p2.Id, $p3.Id, $p4.Id
+
+    Start-Process "$project\test-output\prod\chromium\ExtentReport.html"
+    Start-Process "$project\test-output\dev\edge\ExtentReport.html"
+    Start-Process "$project\test-output\staging\firefox\ExtentReport.html"
+    Start-Process "$project\test-output\prod\webkit\ExtentReport.html"
+
+    ================

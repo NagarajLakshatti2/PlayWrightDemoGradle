@@ -61,6 +61,13 @@ dependencies {
 
     // Logback: the actual logging engine that implements SLF4J
     implementation 'ch.qos.logback:logback-classic:1.5.12'
+
+    // Cucumber-Spring: provides @CucumberContextConfiguration and the cucumber-glue scope
+    testImplementation "io.cucumber:cucumber-spring:${cucumberVersion}"
+
+    // Plain Spring context — no Boot, no embedded server, just the DI container
+    implementation 'org.springframework:spring-context:6.1.14'
+    testImplementation 'org.springframework:spring-test:6.1.14'
 }
 
 // Gradle equivalent of the exec-maven-plugin "install-playwright-browsers"
@@ -73,7 +80,9 @@ task installPlaywrightBrowsers(type: JavaExec) {
     args = ['install']
 }
 
-test.dependsOn installPlaywrightBrowsers
+if (System.getProperty("installBrowsers", "false").toBoolean()) {
+    test.dependsOn installPlaywrightBrowsers
+}
 
 test {
     useTestNG() {
