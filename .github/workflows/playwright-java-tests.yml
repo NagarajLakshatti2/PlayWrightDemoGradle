@@ -159,6 +159,7 @@ jobs:
     if: >
       always() &&
       github.event_name != 'pull_request' &&
+      vars.PAGES_ENABLED == 'true' &&
       (needs.manual-test.result == 'success' ||
        needs.manual-test.result == 'failure' ||
        needs.matrix-test.result == 'success' ||
@@ -233,3 +234,27 @@ jobs:
         run: |
           echo "### Open Extent Report" >> "$GITHUB_STEP_SUMMARY"
           echo "[Open the Extent report](${{ steps.deployment.outputs.page_url }})" >> "$GITHUB_STEP_SUMMARY"
+
+  pages-setup-required:
+    name: GitHub Pages Setup Required
+    if: >
+      always() &&
+      github.event_name != 'pull_request' &&
+      vars.PAGES_ENABLED != 'true'
+    needs:
+      - manual-test
+      - matrix-test
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Explain Pages setup
+        run: |
+          {
+            echo "### Extent report publishing skipped"
+            echo
+            echo "GitHub Pages is not enabled for this repository."
+            echo
+            echo "Repository administrators must enable **Settings → Pages → Build and deployment → GitHub Actions**, then create the repository variable \`PAGES_ENABLED=true\` under **Settings → Secrets and variables → Actions → Variables**."
+            echo
+            echo "The Extent report remains available in the uploaded workflow artifact."
+          } >> "$GITHUB_STEP_SUMMARY"
