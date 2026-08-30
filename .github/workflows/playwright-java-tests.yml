@@ -57,12 +57,25 @@ jobs:
       - name: Run tests
         run: ./gradlew clean test -Denv=${{ inputs.environment }} -Dbrowser=${{ inputs.browser }} -Dheadless=true --rerun-tasks
 
+      - name: Verify Extent report
+        if: always()
+        run: |
+          report="test-output/${{ inputs.environment }}/${{ inputs.browser }}/ExtentReport.html"
+          if [ -f "$report" ]; then
+            echo "Extent report found: $report"
+          else
+            echo "Extent report was not generated: $report"
+            find test-output -maxdepth 5 -type f -print 2>/dev/null || true
+          fi
+
       - name: Upload Extent report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: extent-report-${{ inputs.environment }}-${{ inputs.browser }}
-          path: test-output/${{ inputs.environment }}/${{ inputs.browser }}/
+          path: |
+            test-output/${{ inputs.environment }}/${{ inputs.browser }}/ExtentReport.html
+            test-output/${{ inputs.environment }}/${{ inputs.browser }}/screenshots/
           if-no-files-found: warn
 
       - name: Upload Gradle test report
@@ -109,12 +122,25 @@ jobs:
       - name: Run tests
         run: ./gradlew clean test -Denv=${{ matrix.environment }} -Dbrowser=${{ matrix.browser }} -Dheadless=true --rerun-tasks
 
+      - name: Verify Extent report
+        if: always()
+        run: |
+          report="test-output/${{ matrix.environment }}/${{ matrix.browser }}/ExtentReport.html"
+          if [ -f "$report" ]; then
+            echo "Extent report found: $report"
+          else
+            echo "Extent report was not generated: $report"
+            find test-output -maxdepth 5 -type f -print 2>/dev/null || true
+          fi
+
       - name: Upload Extent report
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: extent-report-${{ matrix.environment }}-${{ matrix.browser }}
-          path: test-output/${{ matrix.environment }}/${{ matrix.browser }}/
+          path: |
+            test-output/${{ matrix.environment }}/${{ matrix.browser }}/ExtentReport.html
+            test-output/${{ matrix.environment }}/${{ matrix.browser }}/screenshots/
           if-no-files-found: warn
 
       - name: Upload Gradle test report
