@@ -1,0 +1,126 @@
+name: Playwright Java Tests
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Environment to test
+        required: true
+        default: dev
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+      browser:
+        description: Browser to test
+        required: true
+        default: chromium
+        type: choice
+        options:
+          - chromium
+          - firefox
+          - webkit
+          - edge
+  push:
+    branches:
+      - main
+      - master
+  pull_request:
+    branches:
+      - main
+      - master
+
+jobs:
+  manual-test:
+    name: Manual - ${{ inputs.environment }} / ${{ inputs.browser }}
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Install Playwright browsers
+        run: ./gradlew installPlaywrightBrowsers
+
+      - name: Run tests
+        run: ./gradlew clean test -Denv=${{ inputs.environment }} -Dbrowser=${{ inputs.browser }} -Dheadless=true --rerun-tasks -x openExtentReport
+
+      - name: Upload Extent report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: extent-report-${{ inputs.environment }}-${{ inputs.browser }}
+          path: test-output/${{ inputs.environment }}/${{ inputs.browser }}/
+          if-no-files-found: warn
+
+      - name: Upload Gradle test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-test-report-${{ inputs.environment }}-${{ inputs.browser }}
+          path: build/${{ inputs.environment }}/${{ inputs.browser }}/reports/tests/test/
+          if-no-files-found: warn
+
+  matrix-test:
+    name: Matrix - ${{ matrix.environment }} / ${{ matrix.browser }}
+    if: github.event_name != 'workflow_dispatch'
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - environment: dev
+            browser: chromium
+          - environment: staging
+            browser: firefox
+          - environment: prod
+            browser: webkit
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Install Playwright browsers
+        run: ./gradlew installPlaywrightBrowsers
+
+      - name: Run tests
+        run: ./gradlew clean test -Denv=${{ matrix.environment }} -Dbrowser=${{ matrix.browser }} -Dheadless=true --rerun-tasks -x openExtentReport
+
+      - name: Upload Extent report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: extent-report-${{ matrix.environment }}-${{ matrix.browser }}
+          path: test-output/${{ matrix.environment }}/${{ matrix.browser }}/
+          if-no-files-found: warn
+
+      - name: Upload Gradle test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gradle-test-report-${{ matrix.environment }}-${{ matrix.browser }}
+          path: build/${{ matrix.environment }}/${{ matrix.browser }}/reports/tests/test/
+          if-no-files-found: warn
