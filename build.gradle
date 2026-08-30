@@ -1,0 +1,125 @@
+plugins {
+    id 'java'
+}
+
+group = 'org.wission'
+version = '1.0-SNAPSHOT'
+
+def runEnv = System.getProperty("env", "dev")
+def runBrowser = System.getProperty("browser", "chromium")
+
+layout.buildDirectory = layout.projectDirectory.dir("build/${runEnv}/${runBrowser}")
+
+repositories {
+    mavenCentral()
+}
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+ext {
+    playwrightVersion = '1.62.0'
+    testngVersion = '7.12.0'
+    restassuredVersion = '6.0.1'
+    jacksonVersion = '2.22.0'
+    cucumberVersion = '7.34.6'
+}
+
+dependencies {
+    // Playwright: drives both browser (web) and API request testing
+    // Source: https://mvnrepository.com/artifact/com.microsoft.playwright/playwright
+    implementation "com.microsoft.playwright:playwright:${playwrightVersion}"
+
+    // TestNG: test runner
+    // Source: https://mvnrepository.com/artifact/org.testng/testng
+    testImplementation "org.testng:testng:${testngVersion}"
+
+    // Cucumber: Gherkin + step definitions + TestNG bridge
+    implementation "io.cucumber:cucumber-java:${cucumberVersion}"
+    testImplementation "io.cucumber:cucumber-testng:${cucumberVersion}"
+
+    // REST Assured: fluent API assertions
+    // Source: https://mvnrepository.com/artifact/io.rest-assured/rest-assured
+    testImplementation "io.rest-assured:rest-assured:${restassuredVersion}"
+
+    // Jackson: JSON (de)serialization
+    // Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+
+    // Extent Reports adapter for Cucumber 7.x — generates a rich HTML dashboard
+    // Source: https://mvnrepository.com/artifact/com.aventstack/extentreports-cucumber7-adapter
+//    testImplementation 'com.aventstack:extentreports-cucumber7-adapter:1.14.0'
+//    testImplementation 'com.aventstack:extentreports:5.1.2'
+    // Extent Reports adapter for Cucumber 7.x — generates a rich HTML dashboard
+   // Source: https://mvnrepository.com/artifact/tech.grasshopper/extentreports-cucumber7-adapter
+    testImplementation 'tech.grasshopper:extentreports-cucumber7-adapter:1.14.0'
+
+    // SLF4J: logging facade — code depends on this interface only
+    implementation 'org.slf4j:slf4j-api:2.0.16'
+
+    // Logback: the actual logging engine that implements SLF4J
+    implementation 'ch.qos.logback:logback-classic:1.5.12'
+}
+
+// Gradle equivalent of the exec-maven-plugin "install-playwright-browsers"
+// execution bound to test-compile phase in the pom.xml
+task installPlaywrightBrowsers(type: JavaExec) {
+    group = 'playwright'
+    description = 'Downloads Chromium, Firefox, and WebKit browser binaries'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.microsoft.playwright.CLI'
+    args = ['install']
+}
+
+test.dependsOn installPlaywrightBrowsers
+
+test {
+    useTestNG() {
+        suites 'testng.xml'
+    }
+    testLogging {
+        events "passed", "skipped", "failed"
+        showStandardStreams = true
+    }
+
+    // Forward -Denv=xxx from the gradlew command line into the test JVM
+    systemProperty "env", runEnv
+    systemProperty "browser", runBrowser
+
+
+    // Keep each environment's report separate on disk
+    systemProperty "extent.reporter.spark.out",
+            "test-output/${runEnv}/${runBrowser}/ExtentReport.html"
+}
+
+processTestResources {
+    filesMatching("extent.properties") {
+        expand(env: runEnv, browser: runBrowser)
+    }
+}
+
+task openExtentReport {
+    doLast {
+        def report = file("test-output/${runEnv}/${runBrowser}/ExtentReport.html")
+        println "Looking for report at: ${report.absolutePath}"
+        println "Report exists: ${report.exists()}"
+
+        if (report.exists() && System.getProperty('os.name').toLowerCase().contains('windows')) {
+            try {
+                def process = new ProcessBuilder('cmd', '/c', 'start', '', report.absolutePath)
+                        .inheritIO()
+                        .start()
+                process.waitFor()
+                println "Attempted to open report, exit code: ${process.exitValue()}"
+            } catch (Exception e) {
+                println "Failed to auto-open report: ${e.message}"
+                e.printStackTrace()
+            }
+        }
+    }
+}
+
+test.finalizedBy openExtentReport
+

@@ -1,0 +1,8 @@
+2026-08-29 23:17:11.883 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Navigating to login page: https://www.saucedemo.com
+2026-08-29 23:17:18.135 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Attempting login with username: standard_user
+2026-08-29 23:17:22.197 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Navigating to login page: https://www.saucedemo.com
+2026-08-29 23:17:23.168 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Attempting login with username: invalid_user
+2026-08-29 23:23:09.540 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Navigating to login page: https://www.saucedemo.com
+2026-08-29 23:23:10.702 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Attempting login with username: standard_user
+2026-08-29 23:23:14.708 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Navigating to login page: https://www.saucedemo.com
+2026-08-29 23:23:16.002 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Attempting login with username: invalid_user
