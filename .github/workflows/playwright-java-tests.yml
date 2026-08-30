@@ -80,6 +80,16 @@ jobs:
             test-output/${{ inputs.environment }}/${{ inputs.browser }}/ExtentReport.html
             test-output/${{ inputs.environment }}/${{ inputs.browser }}/screenshots/
           if-no-files-found: warn
+          retention-days: 7
+
+      - name: Upload Playwright traces
+        if: failure() || cancelled()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces-${{ inputs.environment }}-${{ inputs.browser }}
+          path: test-output/${{ inputs.environment }}/${{ inputs.browser }}/traces/
+          if-no-files-found: warn
+          retention-days: 7
 
       - name: Upload Gradle test report
         if: always()
@@ -88,6 +98,7 @@ jobs:
           name: gradle-test-report-${{ inputs.environment }}-${{ inputs.browser }}
           path: build/${{ inputs.environment }}/${{ inputs.browser }}/reports/tests/test/
           if-no-files-found: warn
+          retention-days: 7
 
   matrix-test:
     name: Matrix - ${{ matrix.environment }} / ${{ matrix.browser }}
@@ -145,6 +156,16 @@ jobs:
             test-output/${{ matrix.environment }}/${{ matrix.browser }}/ExtentReport.html
             test-output/${{ matrix.environment }}/${{ matrix.browser }}/screenshots/
           if-no-files-found: warn
+          retention-days: 7
+
+      - name: Upload Playwright traces
+        if: failure() || cancelled()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-traces-${{ matrix.environment }}-${{ matrix.browser }}
+          path: test-output/${{ matrix.environment }}/${{ matrix.browser }}/traces/
+          if-no-files-found: warn
+          retention-days: 7
 
       - name: Upload Gradle test report
         if: always()
@@ -153,6 +174,7 @@ jobs:
           name: gradle-test-report-${{ matrix.environment }}-${{ matrix.browser }}
           path: build/${{ matrix.environment }}/${{ matrix.browser }}/reports/tests/test/
           if-no-files-found: warn
+          retention-days: 7
 
   publish-extent-report:
     name: Publish Extent Report
