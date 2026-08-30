@@ -31,6 +31,9 @@ on:
       - main
       - master
 
+permissions:
+  contents: read
+
 jobs:
   manual-test:
     name: Manual - ${{ inputs.environment }} / ${{ inputs.browser }}
@@ -150,3 +153,80 @@ jobs:
           name: gradle-test-report-${{ matrix.environment }}-${{ matrix.browser }}
           path: build/${{ matrix.environment }}/${{ matrix.browser }}/reports/tests/test/
           if-no-files-found: warn
+
+  publish-extent-report:
+    name: Publish Extent Report
+    if: >
+      always() &&
+      github.event_name != 'pull_request' &&
+      (needs.manual-test.result == 'success' ||
+       needs.manual-test.result == 'failure' ||
+       needs.matrix-test.result == 'success' ||
+       needs.matrix-test.result == 'failure')
+    needs:
+      - manual-test
+      - matrix-test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    steps:
+      - name: Download Extent reports
+        uses: actions/download-artifact@v4
+        with:
+          pattern: extent-report-*
+          path: pages
+          merge-multiple: false
+
+      - name: Create report index
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          reports_found=false
+          mkdir -p pages
+
+          while IFS= read -r report; do
+            reports_found=true
+            break
+          done < <(find pages -type f -name ExtentReport.html -print)
+
+          if [ "$reports_found" = false ]; then
+            echo "No Extent reports were downloaded."
+            find pages -maxdepth 5 -type f -print || true
+            exit 1
+          fi
+
+          {
+            echo '<!doctype html>'
+            echo '<html><head><meta charset="UTF-8"><title>Playwright Extent Reports</title></head><body>'
+            echo '<h1>Playwright Extent Reports</h1><ul>'
+
+            while IFS= read -r report; do
+              relative="${report#pages/}"
+              link="${relative// /%20}"
+              label="${relative%/ExtentReport.html}"
+              echo "<li><a href=\"${link}\">${label}</a></li>"
+            done < <(find pages -type f -name ExtentReport.html -print | sort)
+
+            echo '</ul></body></html>'
+          } > pages/index.html
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: pages
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+      - name: Add report link to summary
+        run: |
+          echo "### Open Extent Report" >> "$GITHUB_STEP_SUMMARY"
+          echo "[Open the Extent report](${{ steps.deployment.outputs.page_url }})" >> "$GITHUB_STEP_SUMMARY"
