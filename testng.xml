@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="PayWrightSuite" parallel="tests" thread-count="2">
+<suite name="PayWrightSuite" parallel="tests" thread-count="2" data-provider-thread-count="4">
     <test name="API Tests">
+<!--        <parameter name="cucumber.filter.tags" value=""/>-->
         <classes>
             <class name="tests.api.UserApiTest"/>
         </classes>
@@ -9,7 +10,7 @@
 
     <test name="Web Tests (Cucumber)">
         <classes>
-            <class name="runners.TestRunner"/>
+            <class name="runners.AllTestsRunner"/>
         </classes>
     </test>
 

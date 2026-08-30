@@ -126,3 +126,20 @@ src/test/resources/
     Start-Process "$project\test-output\prod\webkit\ExtentReport.html"
 
     ================
+
+    To ignore signing for this one commit, run:
+    git commit --no-gpg-sign -m "your commit message"
+    Or short form:
+    git commit -n -m "your commit message"
+
+    But note: -n means --no-verify, not only no GPG signing. So better use:
+    git commit --no-gpg-sign -m "your commit message"
+    To disable GPG signing only in this repo:
+    git config commit.gpgsign false
+
+    To disable globally:
+    git config --global commit.gpgsign false
+    Best temporary solution:
+    git commit --no-gpg-sign -m "message"
+    ==========================
+
