@@ -39,6 +39,10 @@ jobs:
     name: Manual - ${{ inputs.environment }} / ${{ inputs.browser }}
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    env:
+      RP_ENDPOINT: ${{ secrets.RP_ENDPOINT }}
+      RP_API_KEY: ${{ secrets.RP_API_KEY }}
+      RP_PROJECT: ${{ secrets.RP_PROJECT }}
 
     steps:
       - name: Checkout repository
@@ -58,16 +62,13 @@ jobs:
         run: ./gradlew installPlaywrightBrowsers
 
       - name: Run tests with ReportPortal
-        if: ${{ secrets.RP_API_KEY != '' }}
+        if: ${{ env.RP_API_KEY != '' }}
         env:
-          RP_ENDPOINT: ${{ secrets.RP_ENDPOINT }}
-          RP_API_KEY: ${{ secrets.RP_API_KEY }}
-          RP_PROJECT: ${{ secrets.RP_PROJECT }}
           RP_LAUNCH: Playwright Demo Gradle - ${{ inputs.environment }} / ${{ inputs.browser }}
         run: ./gradlew clean test -Denv=${{ inputs.environment }} -Dbrowser=${{ inputs.browser }} -Dheadless=true -Drp.enabled=true -Drp.endpoint="${RP_ENDPOINT}" -Drp.api.key="${RP_API_KEY}" -Drp.project="${RP_PROJECT}" -Drp.launch="${RP_LAUNCH}" --rerun-tasks
 
       - name: Run tests without ReportPortal
-        if: ${{ secrets.RP_API_KEY == '' }}
+        if: ${{ env.RP_API_KEY == '' }}
         run: ./gradlew clean test -Denv=${{ inputs.environment }} -Dbrowser=${{ inputs.browser }} -Dheadless=true --rerun-tasks
 
       - name: Verify Extent report
@@ -114,6 +115,10 @@ jobs:
     name: Matrix - ${{ matrix.environment }} / ${{ matrix.browser }}
     if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
+    env:
+      RP_ENDPOINT: ${{ secrets.RP_ENDPOINT }}
+      RP_API_KEY: ${{ secrets.RP_API_KEY }}
+      RP_PROJECT: ${{ secrets.RP_PROJECT }}
 
     strategy:
       fail-fast: false
@@ -144,16 +149,13 @@ jobs:
         run: ./gradlew installPlaywrightBrowsers
 
       - name: Run tests with ReportPortal
-        if: ${{ secrets.RP_API_KEY != '' }}
+        if: ${{ env.RP_API_KEY != '' }}
         env:
-          RP_ENDPOINT: ${{ secrets.RP_ENDPOINT }}
-          RP_API_KEY: ${{ secrets.RP_API_KEY }}
-          RP_PROJECT: ${{ secrets.RP_PROJECT }}
           RP_LAUNCH: Playwright Demo Gradle - ${{ matrix.environment }} / ${{ matrix.browser }}
         run: ./gradlew clean test -Denv=${{ matrix.environment }} -Dbrowser=${{ matrix.browser }} -Dheadless=true -Drp.enabled=true -Drp.endpoint="${RP_ENDPOINT}" -Drp.api.key="${RP_API_KEY}" -Drp.project="${RP_PROJECT}" -Drp.launch="${RP_LAUNCH}" --rerun-tasks
 
       - name: Run tests without ReportPortal
-        if: ${{ secrets.RP_API_KEY == '' }}
+        if: ${{ env.RP_API_KEY == '' }}
         run: ./gradlew clean test -Denv=${{ matrix.environment }} -Dbrowser=${{ matrix.browser }} -Dheadless=true --rerun-tasks
 
       - name: Verify Extent report
