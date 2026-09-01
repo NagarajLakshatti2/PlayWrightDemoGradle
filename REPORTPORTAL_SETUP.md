@@ -63,10 +63,12 @@ RP_PROJECT=default_personal
 
 ## Running locally without ReportPortal
 
-The workflow gracefully skips ReportPortal when `RP_API_KEY` is absent. For manual local runs, export your values before executing Gradle:
+The workflow gracefully skips ReportPortal when `RP_API_KEY` is absent. The repo defaults to `rp.enabled=false` in `src/test/resources/reportportal.properties`, so local runs do not fail when no server is available.
+
+For manual local runs with ReportPortal enabled, export your values before executing Gradle:
 
 ```bash
-export RP_ENDPOINT=http://localhost:8080
+export RP_ENDPOINT=http://localhost:18080
 export RP_API_KEY=YOUR_API_KEY
 export RP_PROJECT=default_personal
 export RP_LAUNCH="Playwright Demo Gradle - local"
@@ -74,6 +76,7 @@ export RP_LAUNCH="Playwright Demo Gradle - local"
   -Denv=dev \
   -Dbrowser=chromium \
   -Dheadless=true \
+  -Drp.enabled=true \
   -Drp.endpoint="$RP_ENDPOINT" \
   -Drp.api.key="$RP_API_KEY" \
   -Drp.project="$RP_PROJECT" \

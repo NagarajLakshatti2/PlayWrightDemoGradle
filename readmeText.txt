@@ -170,3 +170,33 @@ Invoke-RestMethod -Method Post `
   -ContentType "application/json" `
   -Body '{"model":"llama3.2:latest","messages":[{"role":"user","content":"Hello from Ollama"}],"max_tokens":50}'
 
+==========
+
+$env:RP_ENDPOINT="http://localhost:19080"
+$env:RP_API_KEY="5145b879-83d9-4692-8b07-928cc4b2af7a"
+$env:RP_PROJECT="default_personal"
+
+& .\gradlew.bat clean test `
+  "-Denv=dev" `
+  "-Dbrowser=chromium" `
+  "-Dheadless=true" `
+  "-Drp.enabled=true" `
+  "-Drp.endpoint=$env:RP_ENDPOINT" `
+  "-Drp.api.key=$env:RP_API_KEY" `
+  "-Drp.project=$env:RP_PROJECT" `
+  --rerun-tasks
+
+or one line
+$env:RP_ENDPOINT="http://localhost:19080"; $env:RP_API_KEY="5145b879-83d9-4692-8b07-928cc4b2af7a"; $env:RP_PROJECT="default_personal"; & .\gradlew.bat clean test "-Denv=dev" "-Dbrowser=chromium" "-Dheadless=true" "-Drp.enabled=true" "-Drp.endpoint=$env:RP_ENDPOINT" "-Drp.api.key=$env:RP_API_KEY" "-Drp.project=$env:RP_PROJECT" --rerun-tasks
+
+ngrok config add-authtoken <YOUR_NGROK_AUTH_TOKEN>
+3Ijz6jg8UMxFFowGgZJZem5svw5_5ddt5dVcEpapmnxRjZgut
+
+ngrok config add-authtoken 3Ijz6jg8UMxFFowGgZJZem5svw5_5ddt5dVcEpapmnxRjZgut
+ngrok config add-authtoken ng-3Ik0Pj8SvQxJ0j2mnCMtA4T9gNa-g1-fu4XPUgLnX747aZdPzBwYWUsLPj9hqdzw
+
+ng-3Ik1OK31JtbFchlAD8pw1kYuJuK-g1-dHEqUnmDBXqAPt3gxU5BHQ5RQ3pS5zXEQ
+
+https://dashboard.ngrok.com/get-started/ng-3Ik1OK31JtbFchlAD8pw1kYuJuK-g1-dHEqUnmDBXqAPt3gxU5BHQ5RQ3pS5zXEQ
+
+ngrok config add-authtoken 3Ijz6jg8UMxFFowGgZJZem5svw5_5ddt5dVcEpapmnxRjZgut

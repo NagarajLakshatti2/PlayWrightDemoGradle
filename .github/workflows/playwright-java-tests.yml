@@ -64,7 +64,7 @@ jobs:
           RP_API_KEY: ${{ secrets.RP_API_KEY }}
           RP_PROJECT: ${{ secrets.RP_PROJECT }}
           RP_LAUNCH: Playwright Demo Gradle - ${{ inputs.environment }} / ${{ inputs.browser }}
-        run: ./gradlew clean test -Denv=${{ inputs.environment }} -Dbrowser=${{ inputs.browser }} -Dheadless=true -Drp.endpoint="${RP_ENDPOINT}" -Drp.api.key="${RP_API_KEY}" -Drp.project="${RP_PROJECT}" -Drp.launch="${RP_LAUNCH}" --rerun-tasks
+        run: ./gradlew clean test -Denv=${{ inputs.environment }} -Dbrowser=${{ inputs.browser }} -Dheadless=true -Drp.enabled=true -Drp.endpoint="${RP_ENDPOINT}" -Drp.api.key="${RP_API_KEY}" -Drp.project="${RP_PROJECT}" -Drp.launch="${RP_LAUNCH}" --rerun-tasks
 
       - name: Run tests without ReportPortal
         if: ${{ secrets.RP_API_KEY == '' }}
@@ -150,7 +150,7 @@ jobs:
           RP_API_KEY: ${{ secrets.RP_API_KEY }}
           RP_PROJECT: ${{ secrets.RP_PROJECT }}
           RP_LAUNCH: Playwright Demo Gradle - ${{ matrix.environment }} / ${{ matrix.browser }}
-        run: ./gradlew clean test -Denv=${{ matrix.environment }} -Dbrowser=${{ matrix.browser }} -Dheadless=true -Drp.endpoint="${RP_ENDPOINT}" -Drp.api.key="${RP_API_KEY}" -Drp.project="${RP_PROJECT}" -Drp.launch="${RP_LAUNCH}" --rerun-tasks
+        run: ./gradlew clean test -Denv=${{ matrix.environment }} -Dbrowser=${{ matrix.browser }} -Dheadless=true -Drp.enabled=true -Drp.endpoint="${RP_ENDPOINT}" -Drp.api.key="${RP_API_KEY}" -Drp.project="${RP_PROJECT}" -Drp.launch="${RP_LAUNCH}" --rerun-tasks
 
       - name: Run tests without ReportPortal
         if: ${{ secrets.RP_API_KEY == '' }}
