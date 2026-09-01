@@ -39,6 +39,7 @@ jobs:
     name: Manual - ${{ inputs.environment }} / ${{ inputs.browser }}
     if: github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-latest
+    environment: github-pages
     env:
       RP_ENDPOINT: ${{ secrets.RP_ENDPOINT }}
       RP_API_KEY: ${{ secrets.RP_API_KEY }}
@@ -115,6 +116,7 @@ jobs:
     name: Matrix - ${{ matrix.environment }} / ${{ matrix.browser }}
     if: github.event_name != 'workflow_dispatch'
     runs-on: ubuntu-latest
+    environment: github-pages
     env:
       RP_ENDPOINT: ${{ secrets.RP_ENDPOINT }}
       RP_API_KEY: ${{ secrets.RP_API_KEY }}
