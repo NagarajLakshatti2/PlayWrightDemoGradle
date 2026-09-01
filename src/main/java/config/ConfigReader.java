@@ -17,20 +17,25 @@ public class ConfigReader {
                 return;
             }
 
-//            try (InputStream is = ConfigReader.class.getClassLoader()
-//                    .getResourceAsStream("config.properties")) {
-//                if (is == null) throw new RuntimeException("config.properties not found on classpath");
-//                PROPERTIES.load(is);
-//            } catch (IOException e) {
-//                throw new RuntimeException("Failed to load config.properties", e);
-//            }
-//            loaded = true;
-
             String env = resolveEnv();
             loadResourceInto(PROPERTIES, "config/common.properties", true);
             loadResourceInto(PROPERTIES, "config/" + env + ".properties", false);
+            loadLocalPropertiesIfPresent();
 
             loaded = true;
+        }
+    }
+
+    private static void loadLocalPropertiesIfPresent() {
+        java.nio.file.Path localProps = java.nio.file.Paths.get("ai.local.properties");
+        if (!java.nio.file.Files.exists(localProps)) {
+            return;
+        }
+
+        try (InputStream is = java.nio.file.Files.newInputStream(localProps)) {
+            PROPERTIES.load(is);
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to load ai.local.properties", e);
         }
     }
 

@@ -13,6 +13,7 @@ public class LoginPage extends BasePage{
     private static final String PASSWORD_INPUT = "#password";
     private static final String SUBMIT_BUTTON = "#login-button";
     private static final String ERROR_BANNER = "[data-test='error']";
+    private static final String LOGIN_BUTTON_FALLBACK = "input[type='submit']";
 
     @Autowired
     public LoginPage(Page page) { super(page); }
@@ -20,7 +21,7 @@ public class LoginPage extends BasePage{
     public void loginAs(String username, String password) {
         fill(USERNAME_INPUT, username);
         fill(PASSWORD_INPUT, password);
-        click(SUBMIT_BUTTON);
+        click(SUBMIT_BUTTON, LOGIN_BUTTON_FALLBACK);
     }
 
     public boolean hasErrorMessage() { return isVisible(ERROR_BANNER); }

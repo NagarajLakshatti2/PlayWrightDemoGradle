@@ -143,3 +143,30 @@ src/test/resources/
     git commit --no-gpg-sign -m "message"
     ==========================
 
+For your project, do this first:
+1. Start Artifactory in Docker
+2. Create a private local repo for your JARs
+3. Publish your internal library there
+4. Use GitHub for repo and code
+5. Add MCP later only if you want AI integrations
+
+
+==========
+power shell
+.\gradlew.bat clean test "-Denv=dev" "-Dbrowser=chromium" "-Dheadless=true" "-Dvisual.strict=true" --rerun-tasks
+
+cmd not working
+gradlew.bat clean test -Denv=dev -Dbrowser=chromium -Dheadless=true -Dvisual.strict=true --rerun-tasks
+
+$env:AI_API_KEY="your_real_key_here"
+
+.\gradlew.bat clean test "-Denv=dev" "-Dbrowser=chromium" "-Dheadless=true" "-Dai.enabled=true" --rerun-tasks
+.\gradlew.bat clean test "-Denv=dev" "-Dbrowser=chromium" "-Dheadless=true" "-Dai.enabled=true" "-Dvisual.strict=true" --rerun-tasks
+
+Run a quick AI smoke test from PowerShell:
+Invoke-RestMethod -Method Post `
+  -Uri "http://127.0.0.1:11435/v1/chat/completions" `
+  -Headers @{ "Authorization" = "Bearer ollama" } `
+  -ContentType "application/json" `
+  -Body '{"model":"llama3.2:latest","messages":[{"role":"user","content":"Hello from Ollama"}],"max_tokens":50}'
+

@@ -10,6 +10,7 @@ import io.cucumber.java.en.When;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
+import utils.VisualValidationUtils;
 import web.pages.LoginPage;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 
@@ -26,10 +27,15 @@ public class LoginWebSteps {
     public void the_user_is_on_the_login_page() {
         log.info("Navigating to login page: {}", ConfigReader.baseUrl());
         page.navigate(ConfigReader.baseUrl(),
-//        PlaywrightManager.getPage().navigate(ConfigReader.baseUrl(),
                 new Page.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED)
         );
         loginPage = new LoginPage(page);
+
+        try {
+            VisualValidationUtils.saveAndCompareAgainstBaseline(page, "login", "landing", 1.0);
+        } catch (Exception e) {
+            log.warn("Failed to save/compare landing screenshot: {}", e.getMessage());
+        }
     }
 
     @When("they log in with {string} and {string}")
@@ -44,13 +50,23 @@ public class LoginWebSteps {
     @Then("the login should succeed")
     public void the_login_should_succeed() throws InterruptedException {
         Assert.assertTrue(loginPage.isLoggedIn(), "Expected login to succeed");
-//        Thread.sleep(10000);
+
+        try {
+            VisualValidationUtils.saveAndCompareAgainstBaseline(page, "login", "success", 1.0);
+        } catch (Exception e) {
+            log.warn("Failed to save/compare success screenshot: {}", e.getMessage());
+        }
     }
 
     @Then("the login should fail")
     public void the_login_should_fail() throws InterruptedException {
         Assert.assertTrue(loginPage.hasErrorMessage(), "Expected an error message on failed login");
-//        int i = 10;
-//        int k = i/0;
+//        Assert.assertTrue(false, "Force AI summary generation");
+
+        try {
+            VisualValidationUtils.saveAndCompareAgainstBaseline(page, "login", "failure", 1.0);
+        } catch (Exception e) {
+            log.warn("Failed to save/compare failure screenshot: {}", e.getMessage());
+        }
     }
 }
