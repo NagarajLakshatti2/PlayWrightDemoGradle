@@ -65,20 +65,94 @@ jobs:
       - name: Run tests with ReportPortal
         if: ${{ env.RP_API_KEY != '' }}
         env:
-          RP_LAUNCH: Playwright Demo Gradle - ${{ inputs.environment }} / ${{ inputs.browser }}
-        run: ./gradlew clean test -Denv=${{ inputs.environment }} -Dbrowser=${{ inputs.browser }} -Dheadless=true -Drp.enabled=true -Drp.endpoint="${RP_ENDPOINT}" -Drp.api.key="${RP_API_KEY}" -Drp.project="${RP_PROJECT}" -Drp.launch="${RP_LAUNCH}" --rerun-tasks
+          RP_LAUNCH: Playwright Java Tests | ${{ inputs.environment }} | ${{ inputs.browser }}
+        shell: bash
+        run: |
+          set +e
+
+          rm -f build/reportportal-launch-uuid.txt
+          rm -f build/reportportal-launch-url.txt
+          rm -f build/reportportal-launch-name.txt
+
+          echo "🚀 Starting Playwright tests..."
+          echo "📊 Waiting for ReportPortal launch..."
+
+          ./gradlew clean test \
+            -Denv=${{ inputs.environment }} \
+            -Dbrowser=${{ inputs.browser }} \
+            -Dheadless=true \
+            -Drp.enabled=true \
+            -Drp.endpoint="${RP_ENDPOINT}" \
+            -Drp.api.key="${RP_API_KEY}" \
+            -Drp.project="${RP_PROJECT}" \
+            -Drp.launch="${RP_LAUNCH}" \
+            --rerun-tasks \
+            > >(tee gradle-test.log) 2>&1 &
+
+          GRADLE_PID=$!
+
+          echo "Gradle PID: ${GRADLE_PID}"
+
+          echo "⏳ Waiting for ReportPortal Launch UUID..."
+
+          for i in {1..60}; do
+
+            if [ -s build/reportportal-launch-url.txt ]; then
+              echo "✅ ReportPortal launch detected!"
+              break
+            fi
+
+            if ! kill -0 "${GRADLE_PID}" 2>/dev/null; then
+              echo "⚠ Gradle process finished before ReportPortal URL was detected."
+              break
+            fi
+
+            sleep 1
+          done
+
+          if [ -s build/reportportal-launch-url.txt ]; then
+
+            RP_URL=$(cat build/reportportal-launch-url.txt)
+            RP_UUID=$(cat build/reportportal-launch-uuid.txt)
+            RP_NAME=$(cat build/reportportal-launch-name.txt)
+
+            echo ""
+            echo "🔴 ================================================"
+            echo "🔴 REPORTPORTAL LIVE EXECUTION"
+            echo "🔴 ================================================"
+            echo "Launch : ${RP_NAME}"
+            echo "UUID   : ${RP_UUID}"
+            echo "URL    : ${RP_URL}"
+            echo "🔴 ================================================"
+            echo ""
+
+            {
+              echo "## 🔴 ReportPortal Live Execution"
+              echo ""
+              echo "**Launch:** \`${RP_NAME}\`"
+              echo ""
+              echo "**UUID:** \`${RP_UUID}\`"
+              echo ""
+              echo "[👉 Open LIVE ReportPortal Launch](${RP_URL})"
+              echo ""
+            } >> "$GITHUB_STEP_SUMMARY"
+
+          else
+            echo "⚠ ReportPortal launch URL was not detected."
+          fi
+
+          echo "⏳ Waiting for Gradle tests to finish..."
+
+          wait "${GRADLE_PID}"
+          TEST_EXIT_CODE=$?
+
+          echo "Gradle exit code: ${TEST_EXIT_CODE}"
+
+          exit "${TEST_EXIT_CODE}"
 
       - name: Run tests without ReportPortal
         if: ${{ env.RP_API_KEY == '' }}
         run: ./gradlew clean test -Denv=${{ inputs.environment }} -Dbrowser=${{ inputs.browser }} -Dheadless=true --rerun-tasks
-
-      - name: Print ReportPortal URL
-        if: ${{ env.RP_API_KEY != '' }}
-        env:
-          RP_LAUNCH: Playwright Demo Gradle - ${{ inputs.environment }} / ${{ inputs.browser }}
-        run: |
-          ENCODED_LAUNCH=$(python -c 'import os, urllib.parse; print(urllib.parse.quote(os.environ["RP_LAUNCH"]))')
-          echo "🔗 ReportPortal launch URL: ${RP_ENDPOINT%/}/ui/#${RP_PROJECT}/launches/all?filter.eq.name=${ENCODED_LAUNCH}"
 
       - name: Verify Extent report
         if: always()
@@ -161,8 +235,90 @@ jobs:
       - name: Run tests with ReportPortal
         if: ${{ env.RP_API_KEY != '' }}
         env:
-          RP_LAUNCH: Playwright Demo Gradle - ${{ matrix.environment }} / ${{ matrix.browser }}
-        run: ./gradlew clean test -Denv=${{ matrix.environment }} -Dbrowser=${{ matrix.browser }} -Dheadless=true -Drp.enabled=true -Drp.endpoint="${RP_ENDPOINT}" -Drp.api.key="${RP_API_KEY}" -Drp.project="${RP_PROJECT}" -Drp.launch="${RP_LAUNCH}" --rerun-tasks
+          RP_LAUNCH: Playwright Java Tests | ${{ matrix.environment }} | ${{ matrix.browser }}
+        shell: bash
+        run: |
+          set +e
+
+          rm -f build/reportportal-launch-uuid.txt
+          rm -f build/reportportal-launch-url.txt
+          rm -f build/reportportal-launch-name.txt
+
+          echo "🚀 Starting Playwright tests..."
+          echo "📊 Waiting for ReportPortal launch..."
+
+          ./gradlew clean test \
+            -Denv=${{ matrix.environment }} \
+            -Dbrowser=${{ matrix.browser }} \
+            -Dheadless=true \
+            -Drp.enabled=true \
+            -Drp.endpoint="${RP_ENDPOINT}" \
+            -Drp.api.key="${RP_API_KEY}" \
+            -Drp.project="${RP_PROJECT}" \
+            -Drp.launch="${RP_LAUNCH}" \
+            --rerun-tasks \
+            > >(tee gradle-test.log) 2>&1 &
+
+          GRADLE_PID=$!
+
+          echo "Gradle PID: ${GRADLE_PID}"
+
+          echo "⏳ Waiting for ReportPortal Launch UUID..."
+
+          for i in {1..60}; do
+
+            if [ -s build/reportportal-launch-url.txt ]; then
+              echo "✅ ReportPortal launch detected!"
+              break
+            fi
+
+            if ! kill -0 "${GRADLE_PID}" 2>/dev/null; then
+              echo "⚠ Gradle process finished before ReportPortal URL was detected."
+              break
+            fi
+
+            sleep 1
+          done
+
+          if [ -s build/reportportal-launch-url.txt ]; then
+
+            RP_URL=$(cat build/reportportal-launch-url.txt)
+            RP_UUID=$(cat build/reportportal-launch-uuid.txt)
+            RP_NAME=$(cat build/reportportal-launch-name.txt)
+
+            echo ""
+            echo "🔴 ================================================"
+            echo "🔴 REPORTPORTAL LIVE EXECUTION"
+            echo "🔴 ================================================"
+            echo "Launch : ${RP_NAME}"
+            echo "UUID   : ${RP_UUID}"
+            echo "URL    : ${RP_URL}"
+            echo "🔴 ================================================"
+            echo ""
+
+            {
+              echo "## 🔴 ReportPortal Live Execution"
+              echo ""
+              echo "**Launch:** \`${RP_NAME}\`"
+              echo ""
+              echo "**UUID:** \`${RP_UUID}\`"
+              echo ""
+              echo "[👉 Open LIVE ReportPortal Launch](${RP_URL})"
+              echo ""
+            } >> "$GITHUB_STEP_SUMMARY"
+
+          else
+            echo "⚠ ReportPortal launch URL was not detected."
+          fi
+
+          echo "⏳ Waiting for Gradle tests to finish..."
+
+          wait "${GRADLE_PID}"
+          TEST_EXIT_CODE=$?
+
+          echo "Gradle exit code: ${TEST_EXIT_CODE}"
+
+          exit "${TEST_EXIT_CODE}"
 
       - name: Run tests without ReportPortal
         if: ${{ env.RP_API_KEY == '' }}
@@ -171,7 +327,7 @@ jobs:
       - name: Print ReportPortal URL
         if: ${{ env.RP_API_KEY != '' }}
         env:
-          RP_LAUNCH: Playwright Demo Gradle - ${{ matrix.environment }} / ${{ matrix.browser }}
+          RP_LAUNCH: Playwright Java Tests - ${{ matrix.environment }} / ${{ matrix.browser }}
         run: |
           ENCODED_LAUNCH=$(python -c 'import os, urllib.parse; print(urllib.parse.quote(os.environ["RP_LAUNCH"]))')
           echo "🔗 ReportPortal launch URL: ${RP_ENDPOINT%/}/ui/#${RP_PROJECT}/launches/all?filter.eq.name=${ENCODED_LAUNCH}"
