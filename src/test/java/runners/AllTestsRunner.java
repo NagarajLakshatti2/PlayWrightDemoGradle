@@ -10,7 +10,12 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 
         plugin = {
                 "pretty",
-                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:"
+
+                // Extent Report
+                "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
+
+                // Custom live ReportPortal Cucumber reporter
+                "listeners.ReportPortalCucumberReporter"
         },
         monochrome = true
 )

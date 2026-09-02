@@ -72,6 +72,14 @@ jobs:
         if: ${{ env.RP_API_KEY == '' }}
         run: ./gradlew clean test -Denv=${{ inputs.environment }} -Dbrowser=${{ inputs.browser }} -Dheadless=true --rerun-tasks
 
+      - name: Print ReportPortal URL
+        if: ${{ env.RP_API_KEY != '' }}
+        env:
+          RP_LAUNCH: Playwright Demo Gradle - ${{ inputs.environment }} / ${{ inputs.browser }}
+        run: |
+          ENCODED_LAUNCH=$(python -c 'import os, urllib.parse; print(urllib.parse.quote(os.environ["RP_LAUNCH"]))')
+          echo "🔗 ReportPortal launch URL: ${RP_ENDPOINT%/}/ui/#${RP_PROJECT}/launches/all?filter.eq.name=${ENCODED_LAUNCH}"
+
       - name: Verify Extent report
         if: always()
         run: |
@@ -159,6 +167,14 @@ jobs:
       - name: Run tests without ReportPortal
         if: ${{ env.RP_API_KEY == '' }}
         run: ./gradlew clean test -Denv=${{ matrix.environment }} -Dbrowser=${{ matrix.browser }} -Dheadless=true --rerun-tasks
+
+      - name: Print ReportPortal URL
+        if: ${{ env.RP_API_KEY != '' }}
+        env:
+          RP_LAUNCH: Playwright Demo Gradle - ${{ matrix.environment }} / ${{ matrix.browser }}
+        run: |
+          ENCODED_LAUNCH=$(python -c 'import os, urllib.parse; print(urllib.parse.quote(os.environ["RP_LAUNCH"]))')
+          echo "🔗 ReportPortal launch URL: ${RP_ENDPOINT%/}/ui/#${RP_PROJECT}/launches/all?filter.eq.name=${ENCODED_LAUNCH}"
 
       - name: Verify Extent report
         if: always()

@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="PayWrightSuite" parallel="tests">
+<suite name="PayWrightSuite">
+    <listeners>
+        <!-- ReportPortal agent -->
+        <listener class-name="com.epam.reportportal.testng.ReportPortalTestNGListener"/>
+
+        <!-- Our live URL printer -->
+        <listener class-name="listeners.ReportPortalListener"/>    </listeners>
+
     <test name="API Tests">
 <!--        <parameter name="cucumber.filter.tags" value=""/>-->
         <classes>

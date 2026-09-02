@@ -25,58 +25,86 @@ ext {
     restassuredVersion = '6.0.1'
     jacksonVersion = '2.22.0'
     cucumberVersion = '7.34.6'
+
+    // ReportPortal
+    reportPortalTestNgVersion = '5.4.0'
+//    reportPortalCucumberVersion = '5.3.1'
+    reportPortalLogbackVersion = '5.3.0'
 }
 
 dependencies {
+    // ============================================================
+    // PLAYWRIGHT
+    // ============================================================
+
     // Playwright: drives both browser (web) and API request testing
     // Source: https://mvnrepository.com/artifact/com.microsoft.playwright/playwright
     implementation "com.microsoft.playwright:playwright:${playwrightVersion}"
 
-    // TestNG: test runner
+    // ============================================================
+    // TESTNG
+    // ============================================================
+
     // Source: https://mvnrepository.com/artifact/org.testng/testng
     testImplementation "org.testng:testng:${testngVersion}"
+
+    // ============================================================
+    // CUCUMBER
+    // ============================================================
 
     // Cucumber: Gherkin + step definitions + TestNG bridge
     implementation "io.cucumber:cucumber-java:${cucumberVersion}"
     testImplementation "io.cucumber:cucumber-testng:${cucumberVersion}"
-
-    // REST Assured: fluent API assertions
-    // Source: https://mvnrepository.com/artifact/io.rest-assured/rest-assured
-    testImplementation "io.rest-assured:rest-assured:${restassuredVersion}"
-
-    // Jackson: JSON (de)serialization
-    // Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
-    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
-
-    // Extent Reports adapter for Cucumber 7.x — generates a rich HTML dashboard
-    // Source: https://mvnrepository.com/artifact/com.aventstack/extentreports-cucumber7-adapter
-//    testImplementation 'com.aventstack:extentreports-cucumber7-adapter:1.14.0'
-//    testImplementation 'com.aventstack:extentreports:5.1.2'
-    // Extent Reports adapter for Cucumber 7.x — generates a rich HTML dashboard
-   // Source: https://mvnrepository.com/artifact/tech.grasshopper/extentreports-cucumber7-adapter
-    testImplementation 'tech.grasshopper:extentreports-cucumber7-adapter:1.14.0'
-
-    // SLF4J: logging facade — code depends on this interface only
-    implementation 'org.slf4j:slf4j-api:2.0.16'
-
-    // Logback: the actual logging engine that implements SLF4J
-    implementation 'ch.qos.logback:logback-classic:1.5.12'
-
     // Cucumber-Spring: provides @CucumberContextConfiguration and the cucumber-glue scope
     testImplementation "io.cucumber:cucumber-spring:${cucumberVersion}"
 
-    // ReportPortal: live execution status and logs for local runs and GitHub Actions
-    testImplementation 'com.epam.reportportal:agent-java-testng:5.4.0'
-    testImplementation 'com.epam.reportportal:agent-java-cucumber:5.3.1'
-    testImplementation 'com.epam.reportportal:logger-java-logback:5.3.0'
+    // ============================================================
+    // REST ASSURED
+    // ============================================================
 
+    // Source: https://mvnrepository.com/artifact/io.rest-assured/rest-assured
+    testImplementation "io.rest-assured:rest-assured:${restassuredVersion}"
+
+    // ============================================================
+    // JACKSON
+    // ============================================================
+
+    // Source: https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+    implementation "com.fasterxml.jackson.core:jackson-databind:${jacksonVersion}"
+
+    // ============================================================
+    // EXTENT REPORT
+    // ============================================================
+
+    // Source: https://mvnrepository.com/artifact/tech.grasshopper/extentreports-cucumber7-adapter
+    testImplementation 'tech.grasshopper:extentreports-cucumber7-adapter:1.14.0'
+
+    // ============================================================
+    // LOGGING
+    // ============================================================
+    // SLF4J: logging facade — code depends on this interface only
+    implementation 'org.slf4j:slf4j-api:2.0.16'
+    // Logback: the actual logging engine that implements SLF4J
+    implementation 'ch.qos.logback:logback-classic:1.5.12'
+
+    // ============================================================
+    // REPORT PORTAL
+    // ============================================================
+
+    testImplementation "com.epam.reportportal:agent-java-testng:${reportPortalTestNgVersion}"
+    testImplementation "com.epam.reportportal:logger-java-logback:${reportPortalLogbackVersion}"
+
+    // ============================================================
+    // SPRING
+    // ============================================================
     // Plain Spring context — no Boot, no embedded server, just the DI container
     implementation 'org.springframework:spring-context:6.1.14'
     testImplementation 'org.springframework:spring-test:6.1.14'
 }
 
-// Gradle equivalent of the exec-maven-plugin "install-playwright-browsers"
-// execution bound to test-compile phase in the pom.xml
+// ================================================================
+// PLAYWRIGHT BROWSER INSTALLATION
+// ================================================================
 task installPlaywrightBrowsers(type: JavaExec) {
     group = 'playwright'
     description = 'Downloads Chromium, Firefox, and WebKit browser binaries'
@@ -89,6 +117,9 @@ if (System.getProperty("installBrowsers", "false").toBoolean()) {
     test.dependsOn installPlaywrightBrowsers
 }
 
+// ================================================================
+// TEST
+// ================================================================
 test {
     useTestNG() {
         suites 'testng.xml'
@@ -98,21 +129,67 @@ test {
         showStandardStreams = true
     }
 
-    // Forward -Denv=xxx from the gradlew command line into the test JVM
+    // ------------------------------------------------------------
+    // Environment
+    // ------------------------------------------------------------
     systemProperty "env", runEnv
     systemProperty "browser", runBrowser
 
 
     // Keep each environment's report separate on disk
+    // ------------------------------------------------------------
+    // Extent report
+    // ------------------------------------------------------------
     systemProperty "extent.reporter.spark.out",
             "test-output/${runEnv}/${runBrowser}/ExtentReport.html"
+
+    // ------------------------------------------------------------
+    // ReportPortal launch name
+    //
+    // Can be overridden:
+    //
+    // ./gradlew test -Drp.launch="Regression-${env}-${browser}"
+    // ------------------------------------------------------------
+
+    def rpLaunch =
+            System.getProperty(
+                    "rp.launch",
+                    "Java-${runEnv}-${runBrowser}"
+            )
+
+    systemProperty "rp.launch", rpLaunch
+
+    // Explicitly enable ReportPortal. Some versions read rp.enable,
+    // while others accept rp.enabled. Keep both to avoid silent skips.
+    systemProperty "rp.enable", "true"
+    systemProperty "rp.enabled", "true"
+
+    // ------------------------------------------------------------
+    // ReportPortal launch UUID printing
+    //
+    // ReportPortal itself can print the UUID when supported.
+    // Our custom listener will print the clickable URL.
+    // ------------------------------------------------------------
+
+    systemProperty "rp.launch.uuid.print", "true"
+    systemProperty "rp.launch.uuid.print.output", "stdout"
 }
+
+// ================================================================
+// EXTENT PROPERTIES
+// ================================================================
 
 processTestResources {
     filesMatching("extent.properties") {
         expand(env: runEnv, browser: runBrowser)
     }
 }
+
+// ================================================================
+// OPEN EXTENT REPORT
+//
+// Don't open browser automatically in CI.
+// ================================================================
 
 task openExtentReport {
     doLast {
@@ -135,5 +212,11 @@ task openExtentReport {
     }
 }
 
-test.finalizedBy openExtentReport
+// ================================================================
+// ONLY OPEN EXTENT LOCALLY
+// ================================================================
+
+if (!System.getenv("CI")) {
+    test.finalizedBy openExtentReport
+}
 
