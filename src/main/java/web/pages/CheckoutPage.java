@@ -33,6 +33,11 @@ public class CheckoutPage extends BasePage {
     }
 
     public boolean isOrderComplete() {
-        return page.locator(COMPLETION_HEADER).isVisible();
+        try {
+            waitForVisible(COMPLETION_HEADER);
+        } catch (RuntimeException e) {
+            return false;
+        }
+        return true;
     }
 }
