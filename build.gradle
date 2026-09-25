@@ -113,6 +113,14 @@ task installPlaywrightBrowsers(type: JavaExec) {
     args = ['install']
 }
 
+task installPlaywrightBrowsersWithDeps(type: JavaExec) {
+    group = 'playwright'
+    description = 'Downloads browser binaries along with their OS-level dependencies'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'com.microsoft.playwright.CLI'
+    args = ['install', '--with-deps']
+}
+
 if (System.getProperty("installBrowsers", "false").toBoolean()) {
     test.dependsOn installPlaywrightBrowsers
 }

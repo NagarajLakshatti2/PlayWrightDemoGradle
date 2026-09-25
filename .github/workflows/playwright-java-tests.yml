@@ -60,7 +60,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Install Playwright browsers
-        run: ./gradlew installPlaywrightBrowsers
+        run: ./gradlew installPlaywrightBrowsersWithDeps
 
       - name: Run tests with ReportPortal
         if: ${{ env.RP_API_KEY != '' }}
@@ -229,7 +229,7 @@ jobs:
         run: chmod +x ./gradlew
 
       - name: Install Playwright browsers
-        run: ./gradlew installPlaywrightBrowsers
+        run: ./gradlew installPlaywrightBrowsersWithDeps
 
       - name: Run tests with ReportPortal
         if: ${{ env.RP_API_KEY != '' }}
