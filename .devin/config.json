@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(**)",
+      "Write(**)",
+      "Exec(git)",
+      "Exec(gradlew)",
+      "Exec(gradlew.bat)",
+      "Exec(gradle)",
+      "Exec(java)",
+      "Exec(mvn)",
+      "Exec(mvnw)",
+      "Exec(mvnw.cmd)"
+    ],
+    "deny": [
+      "Exec(sudo)",
+      "Exec(rm -rf)",
+      "Exec(del /F /Q)",
+      "Exec(rmdir /S /Q)"
+    ],
+    "ask": [
+      "Write(**/.env*)",
+      "Write(**/*secret*)",
+      "Write(**/*key*)"
+    ]
+  },
+  "read_config_from": {
+    "agents_standard": true,
+    "cursor": true,
+    "windsurf": true,
+    "claude": true,
+    "copilot": true,
+    "opencode": true,
+    "zed": true
+  }
+}

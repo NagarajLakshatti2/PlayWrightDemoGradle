@@ -38,3 +38,7 @@ build/
 ### Mac OS ###
 .DS_Store
 ai.local.properties
+
+### Devin CLI ###
+.devin/config.local.json
+.devin/mcp_config.local.json
