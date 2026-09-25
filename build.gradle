@@ -142,6 +142,7 @@ test {
     // ------------------------------------------------------------
     systemProperty "env", runEnv
     systemProperty "browser", runBrowser
+    systemProperty "headless", System.getProperty("headless", "true")
 
 
     // Keep each environment's report separate on disk

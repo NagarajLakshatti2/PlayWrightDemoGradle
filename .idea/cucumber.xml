@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CucumberCommon">
+    <option name="glue">
+      <set>
+        <option value="stepdefinitions.web" />
+        <option value="stepdefinitions.mobile" />
+        <option value="stepdefinitions.hooks" />
+        <option value="spring" />
+      </set>
+    </option>
+    <option name="featurePaths">
+      <set>
+        <option value="file://$PROJECT_DIR$/src/test/resources/features" />
+      </set>
+    </option>
+  </component>
+</project>

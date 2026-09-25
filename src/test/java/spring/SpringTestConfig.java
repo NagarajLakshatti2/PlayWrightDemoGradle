@@ -7,8 +7,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 
-
-
 /**
  * Declares the Playwright object graph as Spring beans, scoped
  * "cucumber-glue" — Spring + cucumber-spring create one fresh instance
@@ -42,9 +40,9 @@ public class SpringTestConfig {
             case "firefox" -> playwright.firefox().launch(options);
             case "webkit" -> playwright.webkit().launch(options);
             case "edge", "msedge", "microsoft-edge" ->
-                    playwright.chromium().launch(options.setChannel("msedge"));
+                playwright.chromium().launch(options.setChannel("msedge"));
             case "chrome", "google-chrome" ->
-                    playwright.chromium().launch(options.setChannel("chrome"));
+                playwright.chromium().launch(options.setChannel("chrome"));
             default -> playwright.chromium().launch(options);
         };
     }
@@ -73,4 +71,3 @@ public class SpringTestConfig {
         return browserContext.newPage();
     }
 }
-

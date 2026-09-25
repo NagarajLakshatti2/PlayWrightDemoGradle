@@ -1,0 +1,14 @@
+{
+  "recommendations": [
+    "alexkrechik.cucumberautocomplete",
+    "cucumberautocomplete.cucumberautocomplete",
+    "vscjava.vscode-java-pack",
+    "redhat.java",
+    "vscjava.vscode-java-dependency",
+    "vscjava.vscode-java-test",
+    "ms-vscode.vscode-json"
+  ],
+  "unwantedRecommendations": [
+    "ms-vscode.vscode-typescript-next"
+  ]
+}

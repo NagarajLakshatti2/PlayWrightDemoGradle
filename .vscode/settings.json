@@ -1,0 +1,45 @@
+{
+  "cucumber.features": [
+    "src/test/resources/features/**/*.feature"
+  ],
+  "cucumber.glue": [
+    "src/test/java/stepdefinitions/**/*.java"
+  ],
+  "cucumber.parameterTypeCompiler": {
+    "defaultImports": [
+      "io.cucumber.java8",
+      "io.cucumber.java"
+    ]
+  },
+  "cucumber.autocomplete": {
+    "steps": [
+      {
+        "uri": "src/test/java/stepdefinitions/**/*.java",
+        "language": "java"
+      }
+    ],
+    "features": [
+      {
+        "uri": "src/test/resources/features/**/*.feature"
+      }
+    ]
+  },
+  "java.configuration.updateBuildConfiguration": "interactive",
+  "java.compile.nullAnalysis.mode": "automatic",
+  "java.format.enabled": true,
+  "java.saveActions.organizeImports": true,
+  "editor.formatOnSave": true,
+  "files.associations": {
+    "*.feature": "cucumber"
+  },
+  "files.exclude": {
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/build": true,
+    "**/.gradle": true,
+    "**/test-output": true
+  }
+}

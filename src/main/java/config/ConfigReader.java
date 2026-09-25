@@ -8,10 +8,12 @@ public class ConfigReader {
     private static final Properties PROPERTIES = new Properties();
     private static volatile boolean loaded = false;
 
-    private ConfigReader() {}
+    private ConfigReader() {
+    }
 
     private static void loadIfNeeded() {
-        if (loaded) return;
+        if (loaded)
+            return;
         synchronized (ConfigReader.class) {
             if (loaded) {
                 return;
@@ -71,7 +73,7 @@ public class ConfigReader {
 
         String envKey = key.toUpperCase().replace('.', '_');
         String envVal = System.getenv(envKey);
-//        String envVal = System.getenv(key.toUpperCase().replace('.', '_'));
+        // String envVal = System.getenv(key.toUpperCase().replace('.', '_'));
         if (envVal != null && !envVal.isBlank()) {
             return envVal;
         }

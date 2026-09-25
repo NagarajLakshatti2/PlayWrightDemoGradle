@@ -1,0 +1,28 @@
+{
+  "cucumberautocomplete.steps": [
+    "src/test/java/stepdefinitions/**/*.java"
+  ],
+  "cucumberautocomplete.syncfeatures": [
+    "src/test/resources/features/**/*.feature"
+  ],
+  "cucumberautocomplete.strictGherkinCompletion": true,
+  "cucumberautocomplete.smartSnippets": true,
+  "cucumberautocomplete.pages": {
+    "features": "src/test/resources/features",
+    "steps": "src/test/java/stepdefinitions"
+  },
+  "cucumberautocomplete.customParameters": [
+    {
+      "parameter": "{string}",
+      "value": ".*"
+    },
+    {
+      "parameter": "{int}",
+      "value": "\\d+"
+    },
+    {
+      "parameter": "{float}",
+      "value": "\\d+\\.\\d+"
+    }
+  ]
+}

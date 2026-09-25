@@ -10,6 +10,11 @@ This is a Java-based test automation suite using Gradle, Playwright, Cucumber, T
 .\gradlew.bat clean test "-Denv=dev" "-Dbrowser=chromium" "-Dheadless=true" --rerun-tasks
 ```
 
+### Running Tests with Visible Browser
+```powershell
+.\gradlew.bat clean test "-Denv=dev" "-Dbrowser=chromium" "-Dheadless=false" --rerun-tasks
+```
+
 ### Strict Visual Validation
 ```powershell
 .\gradlew.bat clean test "-Denv=dev" "-Dbrowser=chromium" "-Dheadless=true" "-Dvisual.strict=true" --rerun-tasks

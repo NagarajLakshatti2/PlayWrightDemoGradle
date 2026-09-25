@@ -1,0 +1,103 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Cucumber: Run All Features",
+      "request": "launch",
+      "mainClass": "io.cucumber.core.cli.Main",
+      "classPaths": [
+        "${workspaceFolder}/build/classes/java/main",
+        "${workspaceFolder}/build/classes/java/test",
+        "${workspaceFolder}/build/dependency-cache"
+      ],
+      "args": [
+        "--glue",
+        "stepdefinitions.web,stepdefinitions.mobile,stepdefinitions.hooks,spring",
+        "--plugin",
+        "pretty",
+        "--plugin",
+        "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
+        "src/test/resources/features"
+      ],
+      "vmArgs": [
+        "-Denv=dev",
+        "-Dbrowser=chromium",
+        "-Dheadless=true"
+      ],
+      "projectName": "PlayWrightDemoGradle"
+    },
+    {
+      "type": "java",
+      "name": "Cucumber: Run Web Features",
+      "request": "launch",
+      "mainClass": "io.cucumber.core.cli.Main",
+      "classPaths": [
+        "${workspaceFolder}/build/classes/java/main",
+        "${workspaceFolder}/build/classes/java/test",
+        "${workspaceFolder}/build/dependency-cache"
+      ],
+      "args": [
+        "--glue",
+        "stepdefinitions.web,stepdefinitions.hooks,spring",
+        "--plugin",
+        "pretty",
+        "--plugin",
+        "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
+        "src/test/resources/features/web"
+      ],
+      "vmArgs": [
+        "-Denv=dev",
+        "-Dbrowser=chromium",
+        "-Dheadless=true"
+      ],
+      "projectName": "PlayWrightDemoGradle"
+    },
+    {
+      "type": "java",
+      "name": "Cucumber: Run Current Feature",
+      "request": "launch",
+      "mainClass": "io.cucumber.core.cli.Main",
+      "classPaths": [
+        "${workspaceFolder}/build/classes/java/main",
+        "${workspaceFolder}/build/classes/java/test",
+        "${workspaceFolder}/build/dependency-cache"
+      ],
+      "args": [
+        "--glue",
+        "stepdefinitions.web,stepdefinitions.mobile,stepdefinitions.hooks,spring",
+        "--plugin",
+        "pretty",
+        "--plugin",
+        "com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter:",
+        "${file}"
+      ],
+      "vmArgs": [
+        "-Denv=dev",
+        "-Dbrowser=chromium",
+        "-Dheadless=true"
+      ],
+      "projectName": "PlayWrightDemoGradle"
+    },
+    {
+      "type": "java",
+      "name": "TestNG: Run All Tests",
+      "request": "launch",
+      "mainClass": "org.testng.TestNG",
+      "classPaths": [
+        "${workspaceFolder}/build/classes/java/main",
+        "${workspaceFolder}/build/classes/java/test",
+        "${workspaceFolder}/build/dependency-cache"
+      ],
+      "args": [
+        "testng.xml"
+      ],
+      "vmArgs": [
+        "-Denv=dev",
+        "-Dbrowser=chromium",
+        "-Dheadless=true"
+      ],
+      "projectName": "PlayWrightDemoGradle"
+    }
+  ]
+}
