@@ -31,4 +31,18 @@ public class McpToolResult {
     public Map<String, Object> getData() {
         return data;
     }
+
+    // Methods for backward compatibility with Jira/Confluence integration
+    public String getOutput() {
+        try {
+            com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
+            return mapper.writeValueAsString(data);
+        } catch (Exception e) {
+            return "{}";
+        }
+    }
+
+    public String getError() {
+        return success ? null : message;
+    }
 }

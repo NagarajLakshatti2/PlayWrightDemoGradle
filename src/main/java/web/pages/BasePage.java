@@ -9,7 +9,9 @@ import java.util.List;
 public class BasePage {
     protected final Page page;
 
-    protected BasePage(Page page) { this.page = page; }
+    protected BasePage(Page page) {
+        this.page = page;
+    }
 
     protected Locator resilientLocator(String... selectors) {
         List<String> candidates = Arrays.asList(selectors);
@@ -30,12 +32,27 @@ public class BasePage {
         resilientLocator(selector).fill(text);
     }
 
-    protected String textOf(String selector) { return resilientLocator(selector).innerText(); }
-    protected boolean isVisible(String selector) { return resilientLocator(selector).isVisible(); }
+    protected void fill(String[] selectors, String text) {
+        resilientLocator(selectors).fill(text);
+    }
+
+    protected String textOf(String selector) {
+        return resilientLocator(selector).innerText();
+    }
+
+    protected boolean isVisible(String selector) {
+        return resilientLocator(selector).isVisible();
+    }
+
+    protected boolean isVisible(String... selectors) {
+        return resilientLocator(selectors).isVisible();
+    }
 
     protected void waitForVisible(String selector) {
         resilientLocator(selector).waitFor(new Locator.WaitForOptions().setState(WaitForSelectorState.VISIBLE));
     }
 
-    public String currentUrl() { return page.url(); }
+    public String currentUrl() {
+        return page.url();
+    }
 }

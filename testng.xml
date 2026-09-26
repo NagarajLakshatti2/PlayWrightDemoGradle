@@ -8,17 +8,28 @@
         <!-- Our live URL printer -->
         <listener class-name="listeners.ReportPortalListener"/>    </listeners>
 
+    <!--        <parameter name="cucumber.filter.tags" value=""/>-->
+    <test name="Web Tests (Cucumber)">
+        <classes>
+            <class name="runners.QAPracticeHubTestRunner"/>
+        </classes>
+        <parameter name="cucumber.filter.tags" value=""/>
+    </test>
+
+<!--
     <test name="API Tests">
-<!--        <parameter name="cucumber.filter.tags" value=""/>-->
         <classes>
             <class name="tests.api.UserApiTest"/>
         </classes>
     </test>
+-->
 
+<!--
     <test name="Web Tests (Cucumber)">
         <classes>
             <class name="runners.AllTestsRunner"/>
         </classes>
-    </test>
+    </test> 
+-->
 
 </suite>

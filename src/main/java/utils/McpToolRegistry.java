@@ -32,7 +32,8 @@ public class McpToolRegistry {
                 Map<String, Object> data = new LinkedHashMap<>();
                 data.put("documentCount", docs.size());
                 data.put("documents", docs);
-                return new McpToolResult("search_project_knowledge", true, "Grounded knowledge documents indexed", data);
+                return new McpToolResult("search_project_knowledge", true, "Grounded knowledge documents indexed",
+                        data);
             } catch (IOException e) {
                 return new McpToolResult("search_project_knowledge", false, e.getMessage(), null);
             }
@@ -87,7 +88,8 @@ public class McpToolRegistry {
             Map<String, Object> data = new LinkedHashMap<>();
             data.put("area", "Login flow");
             data.put("cause", "Likely environment drift or unexpected UI change");
-            data.put("suggestedAction", "Review login selectors and validation text; confirm auth state is correctly reached.");
+            data.put("suggestedAction",
+                    "Review login selectors and validation text; confirm auth state is correctly reached.");
             return new McpToolResult("triage_failure", true, "Failure triage template generated", data);
         });
 
@@ -141,16 +143,21 @@ public class McpToolRegistry {
         }
 
         if ("get_test_priorities".equals(toolName)) {
-            String changedArea = parameters == null ? "" : String.valueOf(parameters.getOrDefault("changedArea", "overall"));
-            boolean releaseCandidate = parameters != null && Boolean.parseBoolean(String.valueOf(parameters.getOrDefault("releaseCandidate", false)));
+            String changedArea = parameters == null ? ""
+                    : String.valueOf(parameters.getOrDefault("changedArea", "overall"));
+            boolean releaseCandidate = parameters != null
+                    && Boolean.parseBoolean(String.valueOf(parameters.getOrDefault("releaseCandidate", false)));
             Map<String, Object> data = TestPrioritizationUtils.buildExecutionPlan(changedArea, releaseCandidate);
             return new McpToolResult(toolName, true, "Risk-based test plan generated", data);
         }
 
         if ("triage_failure".equals(toolName)) {
-            String scenario = parameters == null ? "unknown" : String.valueOf(parameters.getOrDefault("scenario", "unknown"));
-            String failureMessage = parameters == null ? "" : String.valueOf(parameters.getOrDefault("failureMessage", ""));
-            String screenshotPath = parameters == null ? "" : String.valueOf(parameters.getOrDefault("screenshotPath", ""));
+            String scenario = parameters == null ? "unknown"
+                    : String.valueOf(parameters.getOrDefault("scenario", "unknown"));
+            String failureMessage = parameters == null ? ""
+                    : String.valueOf(parameters.getOrDefault("failureMessage", ""));
+            String screenshotPath = parameters == null ? ""
+                    : String.valueOf(parameters.getOrDefault("screenshotPath", ""));
             String area = FailureTriageUtils.classifyArea(failureMessage, scenario);
             String cause = FailureTriageUtils.classifyCause(failureMessage, scenario);
             String action = FailureTriageUtils.suggestAction(area);
@@ -164,9 +171,11 @@ public class McpToolRegistry {
         }
 
         if ("analyze_visual_drift".equals(toolName)) {
-            String scenario = parameters == null ? "unknown" : String.valueOf(parameters.getOrDefault("scenario", "unknown"));
+            String scenario = parameters == null ? "unknown"
+                    : String.valueOf(parameters.getOrDefault("scenario", "unknown"));
             String phase = parameters == null ? "default" : String.valueOf(parameters.getOrDefault("phase", "default"));
-            double threshold = parameters == null ? 2.0 : Double.parseDouble(String.valueOf(parameters.getOrDefault("threshold", 2.0)));
+            double threshold = parameters == null ? 2.0
+                    : Double.parseDouble(String.valueOf(parameters.getOrDefault("threshold", 2.0)));
             try {
                 Map<String, Object> data = VisualValidationUtils.analyzeVisualDrift(scenario, phase, threshold);
                 return new McpToolResult(toolName, true, "Visual drift analysis completed", data);
@@ -180,5 +189,17 @@ public class McpToolRegistry {
             return new McpToolResult(toolName, false, "Unknown MCP tool: " + toolName, null);
         }
         return tool.get();
+    }
+
+    // Method for backward compatibility with Jira/Confluence integration
+    public McpToolResult callTool(String server, String toolName, Map<String, Object> parameters) {
+        // For now, this is a stub that returns a not-implemented result
+        // In a real implementation, this would call the actual MCP server
+        Map<String, Object> data = new LinkedHashMap<>();
+        data.put("server", server);
+        data.put("tool", toolName);
+        data.put("parameters", parameters);
+        data.put("message", "MCP server call not implemented - using local registry instead");
+        return new McpToolResult(toolName, false, "MCP server call not implemented for external servers", data);
     }
 }
