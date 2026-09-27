@@ -7,11 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.testng.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.TestDataLoader;
 import web.pages.qapracticehub.QAPracticeHubHomePage;
+
+import java.util.Map;
 
 public class InputValidationSteps {
 
     private static final Logger log = LoggerFactory.getLogger(InputValidationSteps.class);
+    private static final String TEST_DATA_FILE = "qapracticehub-test-data";
+    private static Map<String, Object> testData;
+
+    static {
+        testData = TestDataLoader.loadTestData(TEST_DATA_FILE);
+    }
 
     @Autowired
     private Page page;
@@ -63,22 +72,20 @@ public class InputValidationSteps {
     @Then("validation error should be shown")
     public void validation_error_should_be_shown() {
         log.info("Verifying validation error is shown");
-        // Check if the input field has validation attributes or if there's an error
-        // message
+        // Check if the input field has validation attributes or if there's an error message
         boolean hasError = qaPracticeHubHomePage.hasEmailValidationError();
         boolean isInvalid = qaPracticeHubHomePage.isEmailInputInvalid();
 
-        // For now, we'll be more flexible since different sites handle validation
-        // differently
+        // For now, we'll be more flexible since different sites handle validation differently
         log.info("Validation error detected: {}, Input marked as invalid: {}", hasError, isInvalid);
 
         // Ensure the invalid email was entered in the field
         String emailValue = qaPracticeHubHomePage.getEmailInputValue();
-        Assert.assertEquals("invalid-email", emailValue, "Invalid email should be in the field");
+        Map<String, Object> emailTestData = TestDataLoader.getMap(testData, "qapracticehub.testData.emailInput");
+        String invalidEmail = TestDataLoader.getString(emailTestData, "invalidEmail");
+        Assert.assertEquals(invalidEmail, emailValue, "Invalid email should be in the field");
 
-        // Note: Uncomment the following line for strict validation once we understand
-        // the site's behavior
-        // Assert.assertTrue(hasError || isInvalid, "Validation error should be shown
-        // for invalid email");
+        // Note: Uncomment the following line for strict validation once we understand the site's behavior
+        // Assert.assertTrue(hasError || isInvalid, "Validation error should be shown for invalid email");
     }
 }

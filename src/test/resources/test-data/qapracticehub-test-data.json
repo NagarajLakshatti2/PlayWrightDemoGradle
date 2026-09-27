@@ -1,0 +1,39 @@
+{
+  "qapracticehub": {
+    "baseUrl": "https://qapracticehub.com/",
+    "testData": {
+      "textInput": {
+        "validText": "Hello World",
+        "emptyText": ""
+      },
+      "emailInput": {
+        "validEmail": "test@example.com",
+        "invalidEmail": "invalid-email"
+      }
+    },
+    "selectors": {
+      "navigation": {
+        "inputsSection": {
+          "primary": "a:has-text('Inputs'), nav a:has-text('Inputs'), .nav-link:has-text('Inputs')",
+          "fallback": "button:has-text('Inputs'), .menu-item:has-text('Inputs')"
+        }
+      },
+      "textInput": {
+        "field": {
+          "primary": "[data-testid='text-input']",
+          "fallback": "input[type='text'][id='text-input'], input[name='textInput']"
+        }
+      },
+      "emailInput": {
+        "field": {
+          "primary": "[data-testid='email-input']",
+          "fallback": "input[type='email'][id='email-input'], input[name='email']"
+        },
+        "validationError": {
+          "primary": "[data-testid='email-error'], .error-message, .validation-error",
+          "fallback": "[class*='error']:visible, [class*='invalid']:visible"
+        }
+      }
+    }
+  }
+}
