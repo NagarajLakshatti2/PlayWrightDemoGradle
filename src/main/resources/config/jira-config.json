@@ -1,0 +1,7 @@
+{
+  "enableStatusUpdate": false,
+  "statusMapping": {
+    "pass": "PASS",
+    "fail": "FAIL"
+  }
+}
