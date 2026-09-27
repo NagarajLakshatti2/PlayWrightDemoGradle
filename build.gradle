@@ -229,3 +229,22 @@ if (!System.getenv("CI")) {
     test.finalizedBy openExtentReport
 }
 
+// ================================================================
+// RUNNER TASKS
+// ================================================================
+
+task runAutomationApprovalRunner(type: JavaExec) {
+    group = 'runners'
+    description = 'Run Automation Approval Runner to review test cases for automation'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'runners.AutomationApprovalRunner'
+}
+
+task runJiraStatusUpdateRunner(type: JavaExec) {
+    group = 'runners'
+    description = 'Run Jira Status Update Runner to update test case status after test execution'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'runners.JiraStatusUpdateRunner'
+    args = ['regression'] // Default tag
+}
+

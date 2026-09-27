@@ -6,11 +6,20 @@ import io.cucumber.java.en.Given;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import utils.TestDataLoader;
 import web.pages.qapracticehub.QAPracticeHubHomePage;
+
+import java.util.Map;
 
 public class NavigationSteps {
 
     private static final Logger log = LoggerFactory.getLogger(NavigationSteps.class);
+    private static final String TEST_DATA_FILE = "qapracticehub-test-data";
+    private static Map<String, Object> testData;
+
+    static {
+        testData = TestDataLoader.loadTestData(TEST_DATA_FILE);
+    }
 
     @Autowired
     private Page page;
@@ -19,8 +28,9 @@ public class NavigationSteps {
 
     @Given("the user is on the qapracticehub homepage")
     public void the_user_is_on_the_qapracticehub_homepage() {
-        log.info("Navigating to qapracticehub homepage: https://qapracticehub.com/");
-        page.navigate("https://qapracticehub.com/",
+        String baseUrl = TestDataLoader.getString(testData, "qapracticehub.baseUrl");
+        log.info("Navigating to qapracticehub homepage: {}", baseUrl);
+        page.navigate(baseUrl,
                 new Page.NavigateOptions().setWaitUntil(WaitUntilState.DOMCONTENTLOADED));
         qaPracticeHubHomePage = new QAPracticeHubHomePage(page);
     }

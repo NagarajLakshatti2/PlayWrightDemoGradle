@@ -63,22 +63,18 @@ public class InputValidationSteps {
     @Then("validation error should be shown")
     public void validation_error_should_be_shown() {
         log.info("Verifying validation error is shown");
-        // Check if the input field has validation attributes or if there's an error
-        // message
+        // Check if the input field has validation attributes or if there's an error message
         boolean hasError = qaPracticeHubHomePage.hasEmailValidationError();
         boolean isInvalid = qaPracticeHubHomePage.isEmailInputInvalid();
 
-        // For now, we'll be more flexible since different sites handle validation
-        // differently
+        // For now, we'll be more flexible since different sites handle validation differently
         log.info("Validation error detected: {}, Input marked as invalid: {}", hasError, isInvalid);
 
         // Ensure the invalid email was entered in the field
         String emailValue = qaPracticeHubHomePage.getEmailInputValue();
         Assert.assertEquals("invalid-email", emailValue, "Invalid email should be in the field");
 
-        // Note: Uncomment the following line for strict validation once we understand
-        // the site's behavior
-        // Assert.assertTrue(hasError || isInvalid, "Validation error should be shown
-        // for invalid email");
+        // Note: Uncomment the following line for strict validation once we understand the site's behavior
+        // Assert.assertTrue(hasError || isInvalid, "Validation error should be shown for invalid email");
     }
 }

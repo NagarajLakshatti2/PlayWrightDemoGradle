@@ -1,0 +1,15 @@
+{
+  "qapracticehub": {
+    "baseUrl": "https://qapracticehub.com/",
+    "testData": {
+      "textInput": {
+        "validText": "Hello World",
+        "emptyText": ""
+      },
+      "emailInput": {
+        "validEmail": "test@example.com",
+        "invalidEmail": "invalid-email"
+      }
+    }
+  }
+}
