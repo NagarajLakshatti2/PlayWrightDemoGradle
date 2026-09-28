@@ -63,6 +63,7 @@ dependencies {
     // ============================================================
 
     // Source: https://mvnrepository.com/artifact/io.rest-assured/rest-assured
+    implementation "io.rest-assured:rest-assured:${restassuredVersion}"
     testImplementation "io.rest-assured:rest-assured:${restassuredVersion}"
 
     // ============================================================
