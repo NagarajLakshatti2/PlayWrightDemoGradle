@@ -1,0 +1,208 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Tests (Chromium - Dev - Headless)",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "clean",
+        "test",
+        "-Denv=dev",
+        "-Dbrowser=chromium",
+        "-Dheadless=true"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Tests (Firefox - Dev - Headless)",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "clean",
+        "test",
+        "-Denv=dev",
+        "-Dbrowser=firefox",
+        "-Dheadless=true"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Tests (Chromium - Dev - Visible)",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "clean",
+        "test",
+        "-Denv=dev",
+        "-Dbrowser=chromium",
+        "-Dheadless=false"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Regression Tests",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "clean",
+        "test",
+        "-Denv=dev",
+        "-Dbrowser=chromium",
+        "-Dheadless=true",
+        "-Dcucumber.filter.tags=@regression"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Sanity Tests",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "clean",
+        "test",
+        "-Denv=dev",
+        "-Dbrowser=chromium",
+        "-Dheadless=true",
+        "-Dcucumber.filter.tags=@sanity"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run Smoke Tests",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "clean",
+        "test",
+        "-Denv=dev",
+        "-Dbrowser=chromium",
+        "-Dheadless=true",
+        "-Dcucumber.filter.tags=@smoke"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Run QAP-1 Tests",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "clean",
+        "test",
+        "-Denv=dev",
+        "-Dbrowser=chromium",
+        "-Dheadless=true",
+        "-Dcucumber.filter.tags=@qap-1"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Automation Approval Runner",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "runAutomationApprovalRunner"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Jira Status Update Runner",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "runJiraStatusUpdateRunner"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Install Playwright Browsers",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "installPlaywrightBrowsers"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Build Project",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "build"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Clean Build",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "clean"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "new"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
