@@ -215,6 +215,21 @@
       },
       "problemMatcher": [],
       "detail": "Clean build artifacts and temporary files"
+    },
+    {
+      "label": "Test Runner GUI",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "runTestRunnerGUI"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": [],
+      "detail": "Launch visual GUI popup for selecting test parameters and running tests"
     }
   ]
 }

@@ -7,6 +7,9 @@ REM
 REM To modify parameters, edit the values below:
 REM ============================================
 
+REM Change to the script's directory
+cd /d "%~dp0"
+
 REM Environment: dev, staging, prod
 SET ENV=dev
 
@@ -34,6 +37,7 @@ echo ===========================================
 echo Test Runner
 echo ===========================================
 echo.
+echo Current Directory: %CD%
 echo Configuration:
 echo   Environment: %ENV%
 echo   Browser: %BROWSER%
@@ -44,6 +48,17 @@ echo   Rerun Tasks: %RERUN_TASKS%
 echo.
 echo ===========================================
 echo.
+
+REM Check if gradlew.bat exists
+IF NOT EXIST "gradlew.bat" (
+    echo ERROR: gradlew.bat not found in current directory
+    echo Please ensure you are running this from the project root directory
+    echo.
+    echo Current directory: %CD%
+    echo.
+    pause
+    exit /b 1
+)
 
 REM Build the Gradle command
 SET GRADLE_CMD=gradlew.bat clean test "-Denv=%ENV%" "-Dbrowser=%BROWSER%" "-Dheadless=%HEADLESS%"

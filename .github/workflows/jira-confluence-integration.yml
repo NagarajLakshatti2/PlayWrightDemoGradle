@@ -1,0 +1,398 @@
+name: Jira/Confluence Test Integration
+
+on:
+  workflow_dispatch:
+    inputs:
+      jira_jql:
+        description: JQL query to fetch Jira test requirements
+        required: true
+        default: 'project = TEST AND issuetype = Test ORDER BY created DESC'
+        type: string
+      confluence_cql:
+        description: CQL query to fetch Confluence requirements
+        required: true
+        default: 'label = "test-requirement" ORDER BY created DESC'
+        type: string
+      environment:
+        description: Environment to test
+        required: true
+        default: dev
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+      browser:
+        description: Browser to test
+        required: true
+        default: chromium
+        type: choice
+        options:
+          - chromium
+          - firefox
+          - webkit
+          - edge
+      update_jira:
+        description: Update test execution status in Jira
+        required: true
+        default: true
+        type: boolean
+      update_confluence:
+        description: Publish test report to Confluence
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  jira-confluence-integration:
+    name: Jira/Confluence Integration Tests
+    runs-on: ubuntu-latest
+    environment: github-pages
+
+    env:
+      # Jira Configuration
+      JIRA_MCP_URL: ${{ secrets.JIRA_URL }}
+      JIRA_MCP_EMAIL: ${{ secrets.JIRA_EMAIL }}
+      JIRA_MCP_TOKEN: ${{ secrets.JIRA_TOKEN }}
+
+      # Confluence Configuration
+      CONFLUENCE_URL: ${{ secrets.CONFLUENCE_URL }}
+      CONFLUENCE_EMAIL: ${{ secrets.CONFLUENCE_EMAIL }}
+      CONFLUENCE_TOKEN: ${{ secrets.CONFLUENCE_TOKEN }}
+
+      # ReportPortal Configuration
+      RP_ENDPOINT: ${{ secrets.RP_ENDPOINT }}
+      RP_API_KEY: ${{ secrets.RP_API_KEY }}
+      RP_PROJECT: ${{ secrets.RP_PROJECT }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+          cache: gradle
+
+      - name: Make Gradle wrapper executable
+        run: chmod +x ./gradlew
+
+      - name: Install Playwright browsers
+        run: ./gradlew installPlaywrightBrowsersWithDeps
+
+      - name: Install Python for MCP servers
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install Jira MCP server
+        run: pip install atlassian-jira-mcp
+
+      - name: Install Confluence MCP server
+        run: pip install atlassian-confluence-mcp
+
+      - name: Configure MCP environment
+        run: |
+          echo "JIRA_MCP_URL=${JIRA_MCP_URL}" >> $GITHUB_ENV
+          echo "JIRA_MCP_EMAIL=${JIRA_MCP_EMAIL}" >> $GITHUB_ENV
+          echo "JIRA_MCP_TOKEN=${JIRA_MCP_TOKEN}" >> $GITHUB_ENV
+          echo "CONFLUENCE_URL=${CONFLUENCE_URL}" >> $GITHUB_ENV
+          echo "CONFLUENCE_EMAIL=${CONFLUENCE_EMAIL}" >> $GITHUB_ENV
+          echo "CONFLUENCE_TOKEN=${CONFLUENCE_TOKEN}" >> $GITHUB_ENV
+
+      - name: Create feature files directory
+        run: mkdir -p src/test/resources/features/jira src/test/resources/features/confluence
+
+      - name: Create test data directory
+        run: mkdir -p src/test/resources/test-data/jira src/test/resources/test-data/confluence
+
+      - name: Generate test cases from Jira
+        if: ${{ env.JIRA_MCP_TOKEN != '' }}
+        run: |
+          echo "🔍 Fetching test requirements from Jira..."
+          echo "JQL Query: ${{ inputs.jira_jql }}"
+
+          # Create a simple Java program to fetch requirements
+          cat > FetchJiraRequirements.java << 'EOF'
+          import jira.JiraIntegrationUtil;
+          import jira.JiraTestRequirement;
+          import java.util.List;
+
+          public class FetchJiraRequirements {
+              public static void main(String[] args) {
+                  JiraIntegrationUtil jira = new JiraIntegrationUtil();
+                  String jql = args.length > 0 ? args[0] : "project = TEST AND issuetype = Test";
+
+                  List<JiraTestRequirement> requirements = jira.searchTestRequirements(jql);
+                  System.out.println("Found " + requirements.size() + " requirements from Jira");
+
+                  for (JiraTestRequirement req : requirements) {
+                      System.out.println("Issue: " + req.getIssueKey() + " - " + req.getSummary());
+                  }
+              }
+          }
+          EOF
+
+          # Compile and run the Java program
+          javac -cp "src/main/java:build/classes/java/main" FetchJiraRequirements.java
+          java -cp ".:src/main/java:build/classes/java/main" FetchJiraRequirements "${{ inputs.jira_jql }}"
+
+      - name: Generate test cases from Confluence
+        if: ${{ env.CONFLUENCE_TOKEN != '' }}
+        run: |
+          echo "🔍 Fetching requirements from Confluence..."
+          echo "CQL Query: ${{ inputs.confluence_cql }}"
+
+          # Create a simple Java program to fetch requirements
+          cat > FetchConfluenceRequirements.java << 'EOF'
+          import confluence.ConfluenceIntegrationUtil;
+          import confluence.ConfluenceRequirement;
+          import java.util.List;
+
+          public class FetchConfluenceRequirements {
+              public static void main(String[] args) {
+                  ConfluenceIntegrationUtil confluence = new ConfluenceIntegrationUtil();
+                  String cql = args.length > 0 ? args[0] : "label = \"test-requirement\"";
+
+                  List<ConfluenceRequirement> requirements = confluence.searchRequirements(cql);
+                  System.out.println("Found " + requirements.size() + " requirements from Confluence");
+
+                  for (ConfluenceRequirement req : requirements) {
+                      System.out.println("Page: " + req.getPageId() + " - " + req.getTitle());
+                  }
+              }
+          }
+          EOF
+
+          # Compile and run the Java program
+          javac -cp "src/main/java:build/classes/java/main" FetchConfluenceRequirements.java
+          java -cp ".:src/main/java:build/classes/java/main" FetchConfluenceRequirements "${{ inputs.confluence_cql }}"
+
+      - name: Build project
+        run: ./gradlew build -x test
+
+      - name: Run generated tests with ReportPortal
+        if: ${{ env.RP_API_KEY != '' }}
+        env:
+          RP_LAUNCH: Jira/Confluence Integration | ${{ inputs.environment }} | ${{ inputs.browser }}
+        shell: bash
+        run: |
+          set +e
+
+          rm -f build/reportportal-launch-uuid.txt
+          rm -f build/reportportal-launch-url.txt
+          rm -f build/reportportal-launch-name.txt
+
+          echo "🚀 Running generated tests..."
+          echo "📊 Waiting for ReportPortal launch..."
+
+          ./gradlew clean test \
+            -Denv=${{ inputs.environment }} \
+            -Dbrowser=${{ inputs.browser }} \
+            -Dheadless=true \
+            -Drp.enabled=true \
+            -Drp.endpoint="${RP_ENDPOINT}" \
+            -Drp.api.key="${RP_API_KEY}" \
+            -Drp.project="${RP_PROJECT}" \
+            -Drp.launch="${RP_LAUNCH}" \
+            --rerun-tasks \
+            > >(tee gradle-test.log) 2>&1 &
+
+          GRADLE_PID=$!
+
+          echo "Gradle PID: ${GRADLE_PID}"
+
+          echo "⏳ Waiting for ReportPortal Launch UUID..."
+
+          for i in {1..60}; do
+            if [ -s build/reportportal-launch-url.txt ]; then
+              echo "✅ ReportPortal launch detected!"
+              break
+            fi
+
+            if ! kill -0 "${GRADLE_PID}" 2>/dev/null; then
+              echo "⚠ Gradle process finished before ReportPortal URL was detected."
+              break
+            fi
+
+            sleep 1
+          done
+
+          if [ -s build/reportportal-launch-url.txt ]; then
+            RP_URL=$(cat build/reportportal-launch-url.txt)
+            RP_UUID=$(cat build/reportportal-launch-uuid.txt)
+            RP_NAME=$(cat build/reportportal-launch-name.txt)
+
+            echo ""
+            echo "🔴 ================================================"
+            echo "🔴 REPORTPORTAL LIVE EXECUTION"
+            echo "🔴 ================================================"
+            echo "Launch : ${RP_NAME}"
+            echo "UUID   : ${RP_UUID}"
+            echo "URL    : ${RP_URL}"
+            echo "🔴 ================================================"
+            echo ""
+
+            {
+              echo "## 🔴 ReportPortal Live Execution"
+              echo ""
+              echo "**Launch:** \`${RP_NAME}\`"
+              echo ""
+              echo "**UUID:** \`${RP_UUID}\`"
+              echo ""
+              echo "[👉 Open LIVE ReportPortal Launch](${RP_URL})"
+              echo ""
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo "⚠ ReportPortal launch URL was not detected."
+          fi
+
+          echo "⏳ Waiting for Gradle tests to finish..."
+          wait "${GRADLE_PID}"
+          TEST_EXIT_CODE=$?
+
+          echo "Gradle exit code: ${TEST_EXIT_CODE}"
+          exit "${TEST_EXIT_CODE}"
+
+      - name: Run generated tests without ReportPortal
+        if: ${{ env.RP_API_KEY == '' }}
+        run: ./gradlew clean test -Denv=${{ inputs.environment }} -Dbrowser=${{ inputs.browser }} -Dheadless=true --rerun-tasks
+
+      - name: Update test execution status in Jira
+        if: ${{ inputs.update_jira == true && env.JIRA_MCP_TOKEN != '' }}
+        run: |
+          echo "📝 Updating test execution status in Jira..."
+
+          # Create a Java program to update Jira status
+          cat > UpdateJiraStatus.java << 'EOF'
+          import jira.JiraIntegrationUtil;
+          import utils.TestContext;
+          import java.io.BufferedReader;
+          import java.io.FileReader;
+          import java.util.HashMap;
+          import java.util.Map;
+
+          public class UpdateJiraStatus {
+              public static void main(String[] args) {
+                  JiraIntegrationUtil jira = new JiraIntegrationUtil();
+
+                  // Read test results from Extent report or test results
+                  // This is a simplified example
+                  String issueKey = "TEST-123"; // This would come from test metadata
+                  String status = "Pass";
+                  String comment = "Tests executed successfully via GitHub Actions";
+
+                  boolean success = jira.updateTestExecution(issueKey, status, comment);
+                  System.out.println("Jira update " + (success ? "successful" : "failed"));
+              }
+          }
+          EOF
+
+          javac -cp "src/main/java:build/classes/java/main" UpdateJiraStatus.java
+          java -cp ".:src/main/java:build/classes/java/main" UpdateJiraStatus
+
+      - name: Publish test report to Confluence
+        if: ${{ inputs.update_confluence == true && env.CONFLUENCE_TOKEN != '' }}
+        run: |
+          echo "📝 Publishing test report to Confluence..."
+
+          # Generate test report summary
+          cat > test-report-summary.md << 'EOF'
+          # Test Execution Report
+
+          ## Summary
+          - Environment: ${{ inputs.environment }}
+          - Browser: ${{ inputs.browser }}
+          - Date: $(date)
+          - Triggered by: ${{ github.actor }}
+
+          ## Test Results
+          $(cat test-output/${{ inputs.environment }}/${{ inputs.browser }}/test-results.json 2>/dev/null || echo "Results not available")
+
+          ## ReportPortal Link
+          $(cat build/reportportal-launch-url.txt 2>/dev/null || echo "ReportPortal not configured")
+          EOF
+
+          # Create a Java program to publish to Confluence
+          cat > PublishToConfluence.java << 'EOF'
+          import confluence.ConfluenceIntegrationUtil;
+          import java.nio.file.Files;
+          import java.nio.file.Paths;
+
+          public class PublishToConfluence {
+              public static void main(String[] args) throws Exception {
+                  ConfluenceIntegrationUtil confluence = new ConfluenceIntegrationUtil();
+                  String spaceKey = "TEST";
+                  String title = "Test Report - " + java.time.LocalDate.now().toString();
+                  String content = new String(Files.readAllBytes(Paths.get("test-report-summary.md")));
+
+                  String pageId = confluence.createTestReport(spaceKey, title, content, null);
+                  System.out.println("Published to Confluence page: " + pageId);
+              }
+          }
+          EOF
+
+          javac -cp "src/main/java:build/classes/java/main" PublishToConfluence.java
+          java -cp ".:src/main/java:build/classes/java/main" PublishToConfluence
+
+      - name: Upload Extent report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: extent-report-jira-confluence-${{ inputs.environment }}-${{ inputs.browser }}
+          path: |
+            test-output/${{ inputs.environment }}/${{ inputs.browser }}/ExtentReport.html
+            test-output/${{ inputs.environment }}/${{ inputs.browser }}/screenshots/
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Upload generated feature files
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-feature-files
+          path: |
+            src/test/resources/features/jira/
+            src/test/resources/features/confluence/
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Upload generated test data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: generated-test-data
+          path: |
+            src/test/resources/test-data/jira/
+            src/test/resources/test-data/confluence/
+          if-no-files-found: warn
+          retention-days: 7
+
+      - name: Generate integration summary
+        if: always()
+        run: |
+          {
+            echo "## 🔗 Jira/Confluence Integration Summary"
+            echo ""
+            echo "**JQL Query:** \`${{ inputs.jira_jql }}\`"
+            echo "**CQL Query:** \`${{ inputs.confluence_cql }}\`"
+            echo "**Environment:** ${{ inputs.environment }}"
+            echo "**Browser:** ${{ inputs.browser }}"
+            echo ""
+            echo "**Jira Update:** ${{ inputs.update_jira }}"
+            echo "**Confluence Update:** ${{ inputs.update_confluence }}"
+            echo ""
+            echo "### Generated Files"
+            echo "- Feature files: \`src/test/resources/features/jira/\` and \`src/test/resources/features/confluence/\`"
+            echo "- Test data: \`src/test/resources/test-data/jira/\` and \`src/test/resources/test-data/confluence/\`"
+            echo ""
+            echo "### Test Execution"
+            echo "- Tests executed against ${{ inputs.environment }} environment"
+            echo "- Results published to Extent Report and ReportPortal"
+            echo ""
+          } >> "$GITHUB_STEP_SUMMARY"

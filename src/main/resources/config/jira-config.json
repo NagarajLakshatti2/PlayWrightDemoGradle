@@ -1,5 +1,5 @@
 {
-  "enableStatusUpdate": false,
+  "enableStatusUpdate": true,
   "statusMapping": {
     "pass": "Done",
     "fail": "FAIL"

@@ -8,6 +8,9 @@ REM
 REM To modify parameters, edit the values below:
 REM ============================================
 
+REM Change to the script's directory
+cd /d "%~dp0"
+
 REM Optional: Test tags to run (e.g., regression, sanity, smoke)
 REM Leave empty to run all tests
 SET TEST_TAGS=regression
@@ -29,6 +32,7 @@ echo ===========================================
 echo Jira Status Update Runner
 echo ===========================================
 echo.
+echo Current Directory: %CD%
 echo Configuration:
 echo   Test Tags: %TEST_TAGS%
 echo   Environment: %ENV%
@@ -37,6 +41,17 @@ echo   Headless: %HEADLESS%
 echo.
 echo ===========================================
 echo.
+
+REM Check if gradlew.bat exists
+IF NOT EXIST "gradlew.bat" (
+    echo ERROR: gradlew.bat not found in current directory
+    echo Please ensure you are running this from the project root directory
+    echo.
+    echo Current directory: %CD%
+    echo.
+    pause
+    exit /b 1
+)
 
 REM Run the Gradle task
 call gradlew.bat runJiraStatusUpdateRunner

@@ -249,3 +249,10 @@ task runJiraStatusUpdateRunner(type: JavaExec) {
     args = ['regression'] // Default tag
 }
 
+task runTestRunnerGUI(type: JavaExec) {
+    group = 'runners'
+    description = 'Run Test Runner GUI - Visual popup for selecting test parameters'
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'gui.TestRunnerGUI'
+}
+
