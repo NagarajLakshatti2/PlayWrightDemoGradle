@@ -18,9 +18,10 @@
       },
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "dedicated"
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "detail": "Run tests with Chromium browser in headless mode on dev environment"
     },
     {
       "label": "Run Tests (Firefox - Dev - Headless)",
@@ -36,9 +37,10 @@
       "group": "build",
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "dedicated"
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "detail": "Run tests with Firefox browser in headless mode on dev environment"
     },
     {
       "label": "Run Tests (Chromium - Dev - Visible)",
@@ -54,9 +56,10 @@
       "group": "build",
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "dedicated"
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "detail": "Run tests with Chromium browser in visible mode on dev environment"
     },
     {
       "label": "Run Regression Tests",
@@ -73,9 +76,10 @@
       "group": "build",
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "dedicated"
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "detail": "Run only regression tagged tests with Chromium in headless mode"
     },
     {
       "label": "Run Sanity Tests",
@@ -92,9 +96,10 @@
       "group": "build",
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "dedicated"
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "detail": "Run only sanity tagged tests with Chromium in headless mode"
     },
     {
       "label": "Run Smoke Tests",
@@ -111,9 +116,10 @@
       "group": "build",
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "dedicated"
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "detail": "Run only smoke tagged tests with Chromium in headless mode"
     },
     {
       "label": "Run QAP-1 Tests",
@@ -130,9 +136,10 @@
       "group": "build",
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "dedicated"
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "detail": "Run only QAP-1 epic tagged tests with Chromium in headless mode"
     },
     {
       "label": "Automation Approval Runner",
@@ -144,9 +151,10 @@
       "group": "build",
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "dedicated"
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "detail": "Fetch and automate approved test cases from Jira"
     },
     {
       "label": "Jira Status Update Runner",
@@ -158,9 +166,10 @@
       "group": "build",
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "dedicated"
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "detail": "Update Jira test case status based on test execution results"
     },
     {
       "label": "Install Playwright Browsers",
@@ -172,9 +181,10 @@
       "group": "build",
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "dedicated"
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "detail": "Install Playwright browser dependencies for test execution"
     },
     {
       "label": "Build Project",
@@ -186,9 +196,10 @@
       "group": "build",
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "dedicated"
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "detail": "Compile and build the entire project"
     },
     {
       "label": "Clean Build",
@@ -200,9 +211,10 @@
       "group": "build",
       "presentation": {
         "reveal": "always",
-        "panel": "new"
+        "panel": "dedicated"
       },
-      "problemMatcher": []
+      "problemMatcher": [],
+      "detail": "Clean build artifacts and temporary files"
     }
   ]
 }

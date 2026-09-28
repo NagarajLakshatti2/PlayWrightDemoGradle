@@ -1,0 +1,29 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Tests (Chromium - Dev - Headless)" type="GradleRunConfiguration" factoryName="Gradle">
+    <log_file alias="Gradle: Run Tests (Chromium - Dev - Headless" skipped_value="true" />
+    <option name="DEPLOY" value="true" />
+    <option name="EXTERNAL_SYSTEM_SETTINGS_RUN_SETTINGS">
+      <ExternalSystemSettingsRunSettings>
+        <option name="EXECUTION_NAME" value="Run Tests (Chromium - Dev - Headless" />
+        <option name="EXTERNAL_PROJECT_PATH" value="$PROJECT_DIR$" />
+        <option name="EXTERNAL_SYSTEM_ID_STRING" value="GRADLE" />
+        <option name="SCRIPT_PARAMETERS" value="-Denv=dev -Dbrowser=chromium -Dheadless=true" />
+        <option name="TASK_NAMES">
+          <list>
+            <option value="clean" />
+            <option value="test" />
+          </list>
+        </option>
+        <option name="VM_PARAMETERS" value="" />
+      </ExternalSystemSettingsRunSettings>
+    </option>
+    <option name="EXTERNAL_SYSTEM_SETTINGS_ID" value="GRADLE" />
+    <option name="EXECUTION_NAME" value="Run Tests (Chromium - Dev - Headless" />
+    <option name="MAIN_CLASS_NAME" value="" />
+    <option name="MODULE_PARENT_ID" value="" />
+    <option name="NAME" value="Run Tests (Chromium - Dev - Headless" />
+    <option name="PROJECT_NAME" value="PlayWrightDemoGradle" />
+    <option name="TARGET_NAME" value="Run Tests (Chromium - Dev - Headless" />
+    <method v="2" />
+  </configuration>
+</component>
