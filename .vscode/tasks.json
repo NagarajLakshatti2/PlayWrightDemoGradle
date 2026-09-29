@@ -1,0 +1,235 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Tests (Chromium - Dev - Headless)",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "clean",
+        "test",
+        "-Denv=dev",
+        "-Dbrowser=chromium",
+        "-Dheadless=true"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      },
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": [],
+      "detail": "Run tests with Chromium browser in headless mode on dev environment"
+    },
+    {
+      "label": "Run Tests (Firefox - Dev - Headless)",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "clean",
+        "test",
+        "-Denv=dev",
+        "-Dbrowser=firefox",
+        "-Dheadless=true"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": [],
+      "detail": "Run tests with Firefox browser in headless mode on dev environment"
+    },
+    {
+      "label": "Run Tests (Chromium - Dev - Visible)",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "clean",
+        "test",
+        "-Denv=dev",
+        "-Dbrowser=chromium",
+        "-Dheadless=false"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": [],
+      "detail": "Run tests with Chromium browser in visible mode on dev environment"
+    },
+    {
+      "label": "Run Regression Tests",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "clean",
+        "test",
+        "-Denv=dev",
+        "-Dbrowser=chromium",
+        "-Dheadless=true",
+        "-Dcucumber.filter.tags=@regression"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": [],
+      "detail": "Run only regression tagged tests with Chromium in headless mode"
+    },
+    {
+      "label": "Run Sanity Tests",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "clean",
+        "test",
+        "-Denv=dev",
+        "-Dbrowser=chromium",
+        "-Dheadless=true",
+        "-Dcucumber.filter.tags=@sanity"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": [],
+      "detail": "Run only sanity tagged tests with Chromium in headless mode"
+    },
+    {
+      "label": "Run Smoke Tests",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "clean",
+        "test",
+        "-Denv=dev",
+        "-Dbrowser=chromium",
+        "-Dheadless=true",
+        "-Dcucumber.filter.tags=@smoke"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": [],
+      "detail": "Run only smoke tagged tests with Chromium in headless mode"
+    },
+    {
+      "label": "Run QAP-1 Tests",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "clean",
+        "test",
+        "-Denv=dev",
+        "-Dbrowser=chromium",
+        "-Dheadless=true",
+        "-Dcucumber.filter.tags=@qap-1"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": [],
+      "detail": "Run only QAP-1 epic tagged tests with Chromium in headless mode"
+    },
+    {
+      "label": "Automation Approval Runner",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "runAutomationApprovalRunner"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": [],
+      "detail": "Fetch and automate approved test cases from Jira"
+    },
+    {
+      "label": "Jira Status Update Runner",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "runJiraStatusUpdateRunner"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": [],
+      "detail": "Update Jira test case status based on test execution results"
+    },
+    {
+      "label": "Install Playwright Browsers",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "installPlaywrightBrowsers"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": [],
+      "detail": "Install Playwright browser dependencies for test execution"
+    },
+    {
+      "label": "Build Project",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "build"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": [],
+      "detail": "Compile and build the entire project"
+    },
+    {
+      "label": "Clean Build",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "clean"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": [],
+      "detail": "Clean build artifacts and temporary files"
+    },
+    {
+      "label": "Test Runner GUI",
+      "type": "shell",
+      "command": "./gradlew.bat",
+      "args": [
+        "runTestRunnerGUI"
+      ],
+      "group": "build",
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": [],
+      "detail": "Launch visual GUI popup for selecting test parameters and running tests"
+    }
+  ]
+}

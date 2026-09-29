@@ -3,6 +3,20 @@
   "configurations": [
     {
       "type": "java",
+      "name": "JiraStatusUpdateRunner",
+      "request": "launch",
+      "mainClass": "runners.JiraStatusUpdateRunner",
+      "projectName": "PayWrightWorkSpaceGradle-PlayWrightDemoGradle"
+    },
+    {
+      "type": "java",
+      "name": "AutomationApprovalRunner",
+      "request": "launch",
+      "mainClass": "runners.AutomationApprovalRunner",
+      "projectName": "PayWrightWorkSpaceGradle-PlayWrightDemoGradle"
+    },
+    {
+      "type": "java",
       "name": "Cucumber: Run All Features",
       "request": "launch",
       "mainClass": "io.cucumber.core.cli.Main",

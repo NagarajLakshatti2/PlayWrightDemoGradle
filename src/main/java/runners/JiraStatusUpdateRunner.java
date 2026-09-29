@@ -1,10 +1,11 @@
 package runners;
 
+import api.JiraApiClient;
+import api.JiraConfigLoader;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.restassured.response.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.McpToolRegistry;
-import utils.McpToolResult;
 
 import java.io.File;
 import java.io.IOException;
@@ -16,7 +17,7 @@ import java.util.*;
  * This runner:
  * 1. Reads configuration from jira-config.json
  * 2. Runs tests (by tags: regression, sanity, smoke, etc.)
- * 3. Updates Jira subtask status to PASS/FAIL if enabled
+ * 3. Updates Jira subtask status to PASS/FAIL if enabled using REST API
  * 
  * Note: Only updates test case subtask status, not parent story status.
  * Parent story status to be updated manually by QA team.
@@ -144,12 +145,22 @@ public class JiraStatusUpdateRunner {
     }
 
     /**
-     * Update Jira status based on test results
-     * Note: This is a placeholder - actual implementation would use Jira MCP
+     * Update Jira status based on test results using REST API
      */
     private static void updateJiraStatus(Map<String, String> testResults, JiraConfig config) {
         log.info("Updating Jira status for {} test cases...", testResults.size());
-        log.info("Note: Actual Jira MCP integration to be implemented");
+
+        // Load Jira credentials
+        String email = JiraConfigLoader.getJiraEmail();
+        String token = JiraConfigLoader.getJiraToken();
+
+        if (email == null || email.isEmpty() || token == null || token.isEmpty()) {
+            log.error("Jira credentials not found. Please set JIRA_EMAIL and JIRA_TOKEN in environment or .devin/jira-confluence.env");
+            return;
+        }
+
+        // Create Jira API client
+        JiraApiClient jiraClient = new JiraApiClient(email, token);
 
         for (Map.Entry<String, String> entry : testResults.entrySet()) {
             String testCaseId = entry.getKey();
@@ -158,8 +169,19 @@ public class JiraStatusUpdateRunner {
 
             log.info("Updating {} to status: {}", testCaseId, jiraStatus);
 
-            // Placeholder for actual Jira MCP call
-            // jira_issue_update(issue_key=testCaseId, status=jiraStatus)
+            try {
+                Response response = jiraClient.updateIssueStatus(testCaseId, jiraStatus);
+                
+                if (response.getStatusCode() == 204) {
+                    log.info("✅ Successfully updated {} to {}", testCaseId, jiraStatus);
+                } else {
+                    log.error("❌ Failed to update {}. Status: {}, Response: {}", 
+                            testCaseId, response.getStatusCode(), response.getStatusLine());
+                }
+
+            } catch (Exception e) {
+                log.error("❌ Error updating status for {}: {}", testCaseId, e.getMessage());
+            }
         }
 
         log.info("Jira status update completed.");
