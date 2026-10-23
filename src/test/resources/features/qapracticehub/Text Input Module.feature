@@ -1,5 +1,6 @@
 Feature: Text Input Module
 
+  @QAP-3
   Scenario: Verify Text Input Field Functionality
     Given the user is on the qapracticehub homepage
     And the user navigates to the Inputs section

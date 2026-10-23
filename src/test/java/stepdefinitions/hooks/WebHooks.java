@@ -1,6 +1,6 @@
 package stepdefinitions.hooks;
 
-import ai.LlmGateway;
+//import ai.LlmGateway;
 import com.aventstack.extentreports.cucumber.adapter.ExtentCucumberAdapter;
 import com.microsoft.playwright.Page;
 import io.cucumber.java.After;
@@ -69,7 +69,7 @@ public class WebHooks {
             String llmSummary = "AI is disabled. No remote model call was made.";
             try {
                 if (ConfigReader.getBoolean("ai.enabled", false)) {
-                    llmSummary = new LlmGateway().summarizeFailure(scenario.getName(), triageSummary + "\n\nProject context:\n" + projectContext);
+//                    llmSummary = new LlmGateway().summarizeFailure(scenario.getName(), triageSummary + "\n\nProject context:\n" + projectContext);
                 }
             } catch (Exception e) {
                 llmSummary = "AI summarization unavailable: " + e.getMessage();

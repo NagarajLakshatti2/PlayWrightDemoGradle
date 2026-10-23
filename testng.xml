@@ -1,35 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="PayWrightSuite">
+
+<suite name="PlaywrightSuite">
     <listeners>
-        <!-- ReportPortal agent -->
         <listener class-name="com.epam.reportportal.testng.ReportPortalTestNGListener"/>
+        <!-- Enable if needed:
+        <listener class-name="listeners.ReportPortalListener"/>
+        -->
+    </listeners>
 
-        <!-- Our live URL printer -->
-        <listener class-name="listeners.ReportPortalListener"/>    </listeners>
-
-    <!--        <parameter name="cucumber.filter.tags" value=""/>-->
-    <test name="Web Tests (Cucumber)">
+    <test name="QAPracticeHub Tests (Cucumber)">
         <classes>
             <class name="runners.QAPracticeHubTestRunner"/>
         </classes>
-        <parameter name="cucumber.filter.tags" value=""/>
     </test>
 
-<!--
     <test name="API Tests">
         <classes>
             <class name="tests.api.UserApiTest"/>
         </classes>
     </test>
--->
-
-<!--
-    <test name="Web Tests (Cucumber)">
-        <classes>
-            <class name="runners.AllTestsRunner"/>
-        </classes>
-    </test> 
--->
-
 </suite>

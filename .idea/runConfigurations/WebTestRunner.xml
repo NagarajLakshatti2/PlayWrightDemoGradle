@@ -1,0 +1,32 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="WebTestRunner" type="TestNG" factoryName="TestNG">
+    <module name="PlayWrightDemoGradle.main" />
+    <shortenClasspath name="NONE" />
+    <useClassPathJar />
+    <option name="SUITE_NAME" value="$PROJECT_DIR$/testng.xml" />
+    <option name="PACKAGE_NAME" value="" />
+    <option name="MAIN_CLASS_NAME" value="" />
+    <option name="METHOD_NAME" value="" />
+    <option name="GROUP_NAME" value="" />
+    <option name="TEST_OBJECT" value="SUITE" />
+    <option name="PARAMETERS" value="" />
+    <option name="WORKING_DIRECTORY" value="$MODULE_WORKING_DIR$" />
+    <option name="OUTPUT_DIRECTORY" value="" />
+    <option name="PROPERTIES_FILE" value="" />
+    <properties>
+      <property name="env" value="dev" />
+      <property name="browser" value="chromium" />
+      <property name="headless" value="true" />
+      <property name="rp.enable" value="true" />
+      <property name="rp.enabled" value="true" />
+    </properties>
+    <envs />
+    <option name="PASS_PARENT_ENVS" value="true" />
+    <option name="USE_ALTERNATE_JRE" value="false" />
+    <option name="ALTERNATIVE_JRE_PATH" />
+    <option name="USE_SHORT_COMMAND_LINE" value="false" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

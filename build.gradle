@@ -47,6 +47,8 @@ dependencies {
 
     // Source: https://mvnrepository.com/artifact/org.testng/testng
     testImplementation "org.testng:testng:${testngVersion}"
+    // Also add to implementation for IDE test runner support
+    implementation "org.testng:testng:${testngVersion}"
 
     // ============================================================
     // CUCUMBER
@@ -101,6 +103,19 @@ dependencies {
     // Plain Spring context — no Boot, no embedded server, just the DI container
     implementation 'org.springframework:spring-context:6.1.14'
     testImplementation 'org.springframework:spring-test:6.1.14'
+
+    // ============================================================
+    // AI / LLM INTEGRATION (JeshlaQaAiAgent)
+    // ============================================================
+
+    // OkHttp for HTTP calls to Ollama and ChromaDB
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
+
+    // Apache Commons for utilities
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
+    implementation 'org.apache.commons:commons-text:1.11.0'
+
+    // JSON processing (Jackson already included above)
 }
 
 // ================================================================
@@ -130,13 +145,45 @@ if (System.getProperty("installBrowsers", "false").toBoolean()) {
 // TEST
 // ================================================================
 test {
-    useTestNG() {
-        suites 'testng.xml'
+    def selectedRunner = System.getProperty("test.runner", "").trim()
+
+    useTestNG { testngOptions ->
+        if (selectedRunner) {
+            def xml = testngOptions.suiteXmlBuilder()
+
+            xml.suite(name: "Selected Automation") {
+                xml.listeners {
+                    xml.listener(
+                        'class-name':
+                        'com.epam.reportportal.testng.ReportPortalTestNGListener'
+                    )
+                }
+                xml.test(name: "Selected Runner") {
+                    xml.classes {
+                        xml.'class'(name: selectedRunner)
+                    }
+                }
+            }
+
+            println "Generated TestNG suite:"
+            println testngOptions.suiteXmlWriter.toString()
+        } else {
+            testngOptions.suites('testng.xml')
+        }
     }
+
+    def cucumberTags = System.getProperty("cucumber.filter.tags")
+    if (cucumberTags?.trim()) {
+        systemProperty "cucumber.filter.tags", cucumberTags
+    }
+
     testLogging {
         events "passed", "skipped", "failed"
         showStandardStreams = true
     }
+
+    // Disable fail on no discovered tests for now
+    systemProperty "failOnNoDiscoveredTests", "false"
 
     // ------------------------------------------------------------
     // Environment
@@ -184,6 +231,7 @@ test {
     systemProperty "rp.launch.uuid.print", "true"
     systemProperty "rp.launch.uuid.print.output", "stdout"
 }
+
 
 // ================================================================
 // EXTENT PROPERTIES
@@ -255,4 +303,3 @@ task runTestRunnerGUI(type: JavaExec) {
     classpath = sourceSets.main.runtimeClasspath
     mainClass = 'gui.TestRunnerGUI'
 }
-

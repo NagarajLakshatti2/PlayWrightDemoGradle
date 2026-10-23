@@ -205,3 +205,25 @@ api key
 JeshAI-GitHub-CI-8618153273
 
 JeshAI-GitHub-CI-8618153273_iA_EWfmWQrCm68o4fsbpcE7slv0N--wgarSK5Jwh4cxPFxVM_QiUpQi8Y3ABNxfk
+
+my local ai
+$env:AI_PROJECT_ROOT = "D:\PlayWrightDemoGradle"
+Set-Location "C:\Users\nagar\PycharmProjects\PythonProject1"
+.\.venv\Scripts\python.exe -m agent.langgraph.langgraph_agentm
+
+
+Basic command:
+./gradlew.bat test
+With environment and browser settings:
+./gradlew.bat test -Denv=dev -Dbrowser=chromium -Dheadless=true
+Clean build + test:
+./gradlew.bat clean test -Denv=dev -Dbrowser=chromium -Dheadless=true
+Other options:
+# Staging environment, Firefox
+./gradlew.bat test -Denv=staging -Dbrowser=firefox -Dheadless=true
+
+# Visible browser (not headless)
+./gradlew.bat test -Denv=dev -Dbrowser=chromium -Dheadless=false
+
+# With specific tag (if using Cucumber tags)
+./gradlew.bat test -Denv=dev -Dbrowser=chromium -Dcucumber.filter.tags="@smoke"

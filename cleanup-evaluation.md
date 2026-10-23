@@ -14,7 +14,9 @@ This document helps you evaluate which code to keep or remove before running Pha
 - ✅ **KEEP** - If you use this for practicing algorithms or as examples
 - ❌ **REMOVE** - If this is just practice code not related to test automation
 
-**Recommendation:** ❌ **REMOVE** - LeetCode practice code doesn't belong in a test automation framework. Move to a separate repository if needed.
+**User Decision:** ❌ **REMOVE** - Remove LeetCode practice code
+
+**Recommendation:** ❌ **REMOVE** - LeetCode practice code doesn't belong in a test automation framework.
 
 ---
 
@@ -33,7 +35,9 @@ This document helps you evaluate which code to keep or remove before running Pha
 - ✅ **KEEP** - If you plan to test mobile apps
 - ❌ **REMOVE** - If you only test web applications
 
-**Recommendation:** ❌ **REMOVE** - Remove unless you have active mobile testing requirements. Can be added back later if needed.
+**User Decision:** ✅ **KEEP** - Planning to work on mobile testing later
+
+**Recommendation:** ✅ **KEEP** - User plans to work on mobile testing later.
 
 ---
 
@@ -52,6 +56,8 @@ This document helps you evaluate which code to keep or remove before running Pha
 **Answer Options:**
 - ✅ **KEEP** - If you still test SauceDemo website
 - ❌ **REMOVE** - If you only test QAP Practice Hub
+
+**User Decision:** ❌ **REMOVE** - Remove old SauceDemo web pages
 
 **Recommendation:** ❌ **REMOVE** - You're now focused on QAP Practice Hub testing. These old pages are not used.
 
@@ -72,7 +78,9 @@ This document helps you evaluate which code to keep or remove before running Pha
 - ✅ **KEEP** - If you use AI for test generation, triage, or analysis
 - ❌ **REMOVE** - If you don't use AI features
 
-**Recommendation:** ❌ **REMOVE** - These are advanced AI features. Remove unless actively used. Can be added back if needed.
+**User Decision:** ❌ **REMOVE** - Remove AI features for now
+
+**Recommendation:** ❌ **REMOVE** - These are advanced AI features. Remove for now, can be added back if needed.
 
 ---
 
@@ -90,7 +98,14 @@ This document helps you evaluate which code to keep or remove before running Pha
 - ✅ **KEEP** - If you publish test results to Confluence
 - ❌ **REMOVE** - If you don't use Confluence
 
-**Recommendation:** ❌ **REMOVE** - You're using Jira for test management. Confluence integration is not actively used.
+**Analysis:**
+- ❌ **NOT ACTIVELY USED** - No references in test code
+- ❌ **NOT NEEDED** - Jira handles all test case management
+- ✅ **ALTERNATIVE EXISTS** - Using Jira REST API instead
+
+**User Decision:** ❌ **REMOVE** - Not needed, using Jira instead
+
+**Recommendation:** ❌ **REMOVE** - Confluence integration is not actively used. Jira handles all test management needs.
 
 ---
 
@@ -98,13 +113,19 @@ This document helps you evaluate which code to keep or remove before running Pha
 
 **Location:** `src/main/java/jira/JiraIntegrationUtil.java`
 
+**Files:**
+- `JiraIntegrationUtil.java`
+- `JiraTestRequirement.java`
+
 **Question:** Do you need the old MCP-based Jira integration?
 
 **Answer Options:**
 - ✅ **KEEP** - If you might use MCP in the future
 - ❌ **REMOVE** - If you're using the new REST API integration
 
-**Recommendation:** ❌ **REMOVE** - You now have `JiraApiClient.java` (REST API) which is working. The old MCP-based integration is obsolete.
+**User Decision:** ✅ **KEEP** - Need the old Jira MCP integration
+
+**Recommendation:** ✅ **KEEP** - User wants to keep both MCP and REST API integrations for flexibility.
 
 ---
 
@@ -125,7 +146,9 @@ This document helps you evaluate which code to keep or remove before running Pha
 - ✅ **KEEP** - If you use failure triage, knowledge indexing, or visual validation
 - ❌ **REMOVE** - If you don't use these advanced features
 
-**Recommendation:** ❌ **REMOVE** - These are advanced AI/ML features. Remove unless actively used. Keep the framework simple.
+**User Decision:** ✅ **KEEP** - Need the advanced utilities
+
+**Recommendation:** ✅ **KEEP** - User wants to keep advanced utilities for future use.
 
 ---
 
@@ -168,7 +191,7 @@ This document helps you evaluate which code to keep or remove before running Pha
 
 ---
 
-## 🎯 **Recommended Cleanup Plan**
+## 🎯 **Updated Cleanup Plan Based on User Decisions**
 
 ### **Safe to Remove (Phase 2):**
 
@@ -176,10 +199,7 @@ This document helps you evaluate which code to keep or remove before running Pha
 # LeetCode practice code
 rm -rf src/main/java/web/pages/LeetCode/
 
-# Mobile testing
-rm -rf src/main/java/mobile/
-
-# Old web pages
+# Old web pages (SauceDemo)
 rm src/main/java/web/pages/LoginPage.java
 rm src/main/java/web/pages/CartPage.java
 rm src/main/java/web/pages/CheckoutPage.java
@@ -188,22 +208,11 @@ rm src/main/java/web/pages/InventoryPage.java
 # AI features
 rm -rf src/main/java/ai/
 
-# Confluence integration
+# Confluence integration (not actively used, using Jira instead)
 rm -rf src/main/java/confluence/
 
-# Old Jira integration
-rm src/main/java/jira/JiraIntegrationUtil.java
-rm src/main/java/jira/JiraTestRequirement.java
-
-# Test case generator
+# Test case generator (not actively used)
 rm src/main/java/integration/TestCaseGenerator.java
-
-# Advanced utilities
-rm src/main/java/utils/FailureTriageUtils.java
-rm src/main/java/utils/KnowledgeIndexUtils.java
-rm src/main/java/utils/QaSummaryGenerator.java
-rm src/main/java/utils/TestPrioritizationUtils.java
-rm src/main/java/utils/VisualValidationUtils.java
 
 # Obsolete documentation
 rm AI_Plane_e2e.md
@@ -213,10 +222,19 @@ rm automation-practice-websites.md
 rm jira-status-workflow-diagram.md
 ```
 
-### **Keep:**
-- ✅ `qapracticehub-test-cases.md` (contains test case information)
+### **Keep (User Decision):**
+- ✅ `src/main/java/mobile/` - Planning to work on mobile testing later
+- ✅ `src/main/java/jira/JiraIntegrationUtil.java` - Need old Jira MCP integration
+- ✅ `src/main/java/jira/JiraTestRequirement.java` - Need old Jira MCP integration
+- ✅ `src/main/java/utils/FailureTriageUtils.java` - Need advanced utilities
+- ✅ `src/main/java/utils/KnowledgeIndexUtils.java` - Need advanced utilities
+- ✅ `src/main/java/utils/QaSummaryGenerator.java` - Need advanced utilities
+- ✅ `src/main/java/utils/TestPrioritizationUtils.java` - Need advanced utilities
+- ✅ `src/main/java/utils/VisualValidationUtils.java` - Need advanced utilities
+- ✅ `qapracticehub-test-cases.md` - Contains test case information
 - ✅ All QAP Practice Hub test automation code
 - ✅ Jira REST API integration (new)
+- ✅ Jira MCP integration (old - keeping both)
 - ✅ GUI and runners
 - ✅ Core utilities (PlaywrightManager, TestDataLoader, etc.)
 
