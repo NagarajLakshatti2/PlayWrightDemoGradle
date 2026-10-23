@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "api": {
+    "class": "tests.api.UserLookupPilotTest",
+    "methods": [
+      "API_TC_001_directLookupMatchesRequestedUser",
+      "API_TC_002_existingFilterMatchesDirectLookup",
+      "API_TC_003_absentIdFilterReturnsEmptyCollection"
+    ],
+    "url": "https://jsonplaceholder.typicode.com",
+    "user_id": 1
+  },
+  "web": {
+    "class": "tests.web.TextInputAgentPilotTest",
+    "methods": [
+      "TI_TC_001_textEntryAndClear"
+    ],
+    "url": "https://qapracticehub.com/#inputs",
+    "by": "label",
+    "target": "Text Input",
+    "value": "Hello World",
+    "dismiss": "Decline"
+  },
+  "source_text_sha256": {
+    "build.gradle": "e08c5ecb0fbcd8e3314a56776a448839490ee154cd914b1f0f05a1103394dfb2",
+    "src/main/java/config/ConfigReader.java": "a3d4a49322abc135a9ba3ddf583de874d58fb25b44d4040ff04c78d2cbb82f3a",
+    "src/test/java/tests/api/UserLookupPilotTest.java": "bc581d1f3d70c2da40d2ba49edd7bd36157bbee385551013e4f8e8e6b53742f0",
+    "src/test/java/tests/web/TextInputAgentPilotTest.java": "e137b23c722a6ce74fe07f9a9c5034157968eec2f48b6f9b00dd0e87f2423c06"
+  }
+}
