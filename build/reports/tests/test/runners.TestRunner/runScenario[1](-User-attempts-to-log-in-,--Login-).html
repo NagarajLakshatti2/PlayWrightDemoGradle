@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - runScenario[1](&quot;User attempts to log in&quot;, &quot;Login&quot;)</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<div class="breadcrumbs">
+<a class="breadcrumb" href="../index.html">all</a> &gt; 
+<a class="breadcrumb" href="index.html">runners.TestRunner</a> &gt; 
+<span class="breadcrumb">runScenario[1](&quot;User attempts to log in&quot;, &quot;Login&quot;)</span>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a class="failureGroup" href="#">Gradle Test Run :test</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Gradle Test Run :test</h2>
+<h1>runScenario[1](&quot;User attempts to log in&quot;, &quot;Login&quot;)</h1>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a class="" href="#">summary</a>
+</li>
+<li>
+<a class="" href="#">standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>summary</h2>
+<div>
+<div class="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox">
+<div class="counter">1</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox">
+<div class="counter">0</div>
+<p>skipped</p>
+</div>
+</td>
+<td>
+<div class="infoBox duration">
+<div class="counter">37.704s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox failures successRate">
+<div class="percent">0%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="result-details">
+<h3>Failure details</h3>
+<span class="code">
+<pre id="root-0-test-failure-runScenario[1](&quot;User attempts to log in&quot;, &quot;Login&quot;)">com.microsoft.playwright.TimeoutError: Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at _ProgressController.run (C:\Users\nagar\AppData\Local\Temp\playwright-java-17399683943704818677\package\lib\coreBundle.js:12135:32)
+    at DispatcherConnection.dispatch (C:\Users\nagar\AppData\Local\Temp\playwright-java-17399683943704818677\package\lib\coreBundle.js:18775:44)
+}
+Call log:
+-   - waiting for locator(&quot;#login-button&quot;)
+-     - locator resolved to &lt;input type=&quot;submit&quot; value=&quot;Login&quot; id=&quot;login-button&quot; name=&quot;login-button&quot; data-test=&quot;login-button&quot; class=&quot;submit-button btn_action&quot;/&gt;
+-   - attempting click action
+-     - waiting for element to be visible, enabled and stable
+-     - element is visible, enabled and stable
+-     - scrolling into view if needed
+-     - done scrolling
+-     - performing click action
+
+	at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:52)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:147)
+	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:136)
+	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:133)
+	at com.microsoft.playwright.impl.FrameImpl.clickImpl(FrameImpl.java:244)
+	at com.microsoft.playwright.impl.LocatorImpl.click(LocatorImpl.java:173)
+	at com.microsoft.playwright.Locator.click(Locator.java:2837)
+	at web.pages.BasePage.click(BasePage.java:12)
+	at web.pages.LoginPage.loginAs(LoginPage.java:17)
+	at stepdefinitions.LoginSteps.they_log_in_with(LoginSteps.java:31)
+	at ✽.they log in with &quot;invalid_user&quot; and &quot;wrong_pass&quot;(file:///C:/Users/nagar/PayWrightWorkSpaceMaven/src/test/resources/features/login.feature:5)
+Caused by: com.microsoft.playwright.TimeoutError: Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at _ProgressController.run (C:\Users\nagar\AppData\Local\Temp\playwright-java-17399683943704818677\package\lib\coreBundle.js:12135:32)
+    at DispatcherConnection.dispatch (C:\Users\nagar\AppData\Local\Temp\playwright-java-17399683943704818677\package\lib\coreBundle.js:18775:44)
+}
+Call log:
+-   - waiting for locator(&quot;#login-button&quot;)
+-     - locator resolved to &lt;input type=&quot;submit&quot; value=&quot;Login&quot; id=&quot;login-button&quot; name=&quot;login-button&quot; data-test=&quot;login-button&quot; class=&quot;submit-button btn_action&quot;/&gt;
+-   - attempting click action
+-     - waiting for element to be visible, enabled and stable
+-     - element is visible, enabled and stable
+-     - scrolling into view if needed
+-     - done scrolling
+-     - performing click action
+
+	at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:273)
+	at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:229)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:145)
+	... 9 more
+Cause 1: com.microsoft.playwright.TimeoutError: Error {
+  message='Timeout 30000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 30000ms exceeded.
+    at _ProgressController.run (C:\Users\nagar\AppData\Local\Temp\playwright-java-17399683943704818677\package\lib\coreBundle.js:12135:32)
+    at DispatcherConnection.dispatch (C:\Users\nagar\AppData\Local\Temp\playwright-java-17399683943704818677\package\lib\coreBundle.js:18775:44)
+}
+Call log:
+-   - waiting for locator(&quot;#login-button&quot;)
+-     - locator resolved to &lt;input type=&quot;submit&quot; value=&quot;Login&quot; id=&quot;login-button&quot; name=&quot;login-button&quot; data-test=&quot;login-button&quot; class=&quot;submit-button btn_action&quot;/&gt;
+-   - attempting click action
+-     - waiting for element to be visible, enabled and stable
+-     - element is visible, enabled and stable
+-     - scrolling into view if needed
+-     - done scrolling
+-     - performing click action
+
+	at app//com.microsoft.playwright.impl.Connection.dispatch(Connection.java:273)
+	at app//com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:229)
+	at app//com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:145)
+	at app//com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:136)
+	at app//com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:133)
+	at app//com.microsoft.playwright.impl.FrameImpl.clickImpl(FrameImpl.java:244)
+	at app//com.microsoft.playwright.impl.LocatorImpl.click(LocatorImpl.java:173)
+	at app//com.microsoft.playwright.Locator.click(Locator.java:2837)
+	at app//web.pages.BasePage.click(BasePage.java:12)
+	at app//web.pages.LoginPage.loginAs(LoginPage.java:17)
+	at app//stepdefinitions.LoginSteps.they_log_in_with(LoginSteps.java:31)
+	at ✽.they log in with &quot;invalid_user&quot; and &quot;wrong_pass&quot;(file:///C:/Users/nagar/PayWrightWorkSpaceMaven/src/test/resources/features/login.feature:5)
+
+</pre>
+<button class="clipboard-copy-btn" aria-label="Copy to clipboard" data-copy-element-id="root-0-test-failure-runScenario[1](&quot;User attempts to log in&quot;, &quot;Login&quot;)">Copy</button>
+</span>
+</div>
+</div>
+</div>
+<div class="tab">
+<h2>standard output</h2>
+<span class="code">
+<pre id="root-0-test-stdout-runScenario[1](&quot;User attempts to log in&quot;, &quot;Login&quot;)">
+Scenario Outline: User attempts to log in                 # src/test/resources/features/login.feature:11
+17:53:51.269 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Navigating to login page: https://www.saucedemo.com
+  ✔ Given the user is on the login page                   # stepdefinitions.LoginSteps.the_user_is_on_the_login_page()
+17:53:53.833 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Attempting login with username: invalid_user
+  ✘ When they log in with &quot;invalid_user&quot; and &quot;wrong_pass&quot; # stepdefinitions.LoginSteps.they_log_in_with(java.lang.String,java.lang.String)
+        com.microsoft.playwright.TimeoutError: Error {
+          message='Timeout 30000ms exceeded.
+          name='TimeoutError
+          stack='TimeoutError: Timeout 30000ms exceeded.
+            at _ProgressController.run (C:\Users\nagar\AppData\Local\Temp\playwright-java-17399683943704818677\package\lib\coreBundle.js:12135:32)
+            at DispatcherConnection.dispatch (C:\Users\nagar\AppData\Local\Temp\playwright-java-17399683943704818677\package\lib\coreBundle.js:18775:44)
+        }
+        Call log:
+        -   - waiting for locator(&quot;#login-button&quot;)
+        -     - locator resolved to &lt;input type=&quot;submit&quot; value=&quot;Login&quot; id=&quot;login-button&quot; name=&quot;login-button&quot; data-test=&quot;login-button&quot; class=&quot;submit-button btn_action&quot;/&gt;
+        -   - attempting click action
+        -     - waiting for element to be visible, enabled and stable
+        -     - element is visible, enabled and stable
+        -     - scrolling into view if needed
+        -     - done scrolling
+        -     - performing click action
+        
+        	at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:52)
+        	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:147)
+        	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:136)
+        	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:133)
+        	at com.microsoft.playwright.impl.FrameImpl.clickImpl(FrameImpl.java:244)
+        	at com.microsoft.playwright.impl.LocatorImpl.click(LocatorImpl.java:173)
+        	at com.microsoft.playwright.Locator.click(Locator.java:2837)
+        	at web.pages.BasePage.click(BasePage.java:12)
+        	at web.pages.LoginPage.loginAs(LoginPage.java:17)
+        	at stepdefinitions.LoginSteps.they_log_in_with(LoginSteps.java:31)
+        	at ✽.they log in with &quot;invalid_user&quot; and &quot;wrong_pass&quot;(file:///C:/Users/nagar/PayWrightWorkSpaceMaven/src/test/resources/features/login.feature:5)
+        Caused by: com.microsoft.playwright.TimeoutError: Error {
+          message='Timeout 30000ms exceeded.
+          name='TimeoutError
+          stack='TimeoutError: Timeout 30000ms exceeded.
+            at _ProgressController.run (C:\Users\nagar\AppData\Local\Temp\playwright-java-17399683943704818677\package\lib\coreBundle.js:12135:32)
+            at DispatcherConnection.dispatch (C:\Users\nagar\AppData\Local\Temp\playwright-java-17399683943704818677\package\lib\coreBundle.js:18775:44)
+        }
+        Call log:
+        -   - waiting for locator(&quot;#login-button&quot;)
+        -     - locator resolved to &lt;input type=&quot;submit&quot; value=&quot;Login&quot; id=&quot;login-button&quot; name=&quot;login-button&quot; data-test=&quot;login-button&quot; class=&quot;submit-button btn_action&quot;/&gt;
+        -   - attempting click action
+        -     - waiting for element to be visible, enabled and stable
+        -     - element is visible, enabled and stable
+        -     - scrolling into view if needed
+        -     - done scrolling
+        -     - performing click action
+        
+        	at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:273)
+        	at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:229)
+        	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:145)
+        	... 9 more
+  ↷ Then the login should fail                            # stepdefinitions.LoginSteps.the_login_should_fail()
+
+        Embedding User attempts to log in [image/png 31899 bytes]
+
+</pre>
+<button class="clipboard-copy-btn" aria-label="Copy to clipboard" data-copy-element-id="root-0-test-stdout-runScenario[1](&quot;User attempts to log in&quot;, &quot;Login&quot;)">Copy</button>
+</span>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 9.3.0</a> at 30 Aug 2026, 5:54:25 pm</p>
+</div>
+</div>
+</body>
+</html>

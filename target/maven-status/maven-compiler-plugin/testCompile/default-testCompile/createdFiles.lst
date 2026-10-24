@@ -1,0 +1,4 @@
+runners\TestRunner.class
+tests\api\UserApiTest.class
+stepdefinitions\LoginSteps.class
+stepdefinitions\Hooks.class

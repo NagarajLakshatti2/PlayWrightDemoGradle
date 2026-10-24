@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="runners.TestRunner" tests="2" skipped="0" failures="2" errors="0" timestamp="2026-08-30T13:49:56.504Z" hostname="DELL" time="52.37">
+  <properties/>
+  <testcase name="runScenario[0](&quot;User attempts to log in&quot;, &quot;Login&quot;)" classname="runners.TestRunner" time="25.097">
+    <failure message="java.lang.NoClassDefFoundError: web/pages/LoginPage" type="java.lang.NoClassDefFoundError">java.lang.NoClassDefFoundError: web/pages/LoginPage
+	at stepdefinitions.LoginSteps.the_user_is_on_the_login_page(LoginSteps.java:29)
+	at ✽.the user is on the login page(file:///C:/Users/nagar/PayWrightWorkSpaceMaven/src/test/resources/features/login.feature:4)
+Caused by: java.lang.ClassNotFoundException: web.pages.LoginPage
+	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:580)
+	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+	... 2 more
+</failure>
+  </testcase>
+  <testcase name="runScenario[1](&quot;User attempts to log in&quot;, &quot;Login&quot;)" classname="runners.TestRunner" time="17.157">
+    <failure message="java.lang.NoClassDefFoundError: web/pages/LoginPage" type="java.lang.NoClassDefFoundError">java.lang.NoClassDefFoundError: web/pages/LoginPage
+	at stepdefinitions.LoginSteps.the_user_is_on_the_login_page(LoginSteps.java:29)
+	at ✽.the user is on the login page(file:///C:/Users/nagar/PayWrightWorkSpaceMaven/src/test/resources/features/login.feature:4)
+Caused by: java.lang.ClassNotFoundException: web.pages.LoginPage
+	... 2 more
+</failure>
+  </testcase>
+  <system-out><![CDATA[
+Scenario Outline: User attempts to log in                    # src/test/resources/features/login.feature:10
+19:20:07.826 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - === Running against environment: DEV | browser=EDGE | base.url=https://www.saucedemo.com | api.base.url=https://jsonplaceholder.typicode.com ===
+19:20:28.856 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Navigating to login page: https://www.saucedemo.com
+  ✘ Given the user is on the login page                      # stepdefinitions.LoginSteps.the_user_is_on_the_login_page()
+        java.lang.NoClassDefFoundError: web/pages/LoginPage
+        	at stepdefinitions.LoginSteps.the_user_is_on_the_login_page(LoginSteps.java:29)
+        	at ✽.the user is on the login page(file:///C:/Users/nagar/PayWrightWorkSpaceMaven/src/test/resources/features/login.feature:4)
+        Caused by: java.lang.ClassNotFoundException: web.pages.LoginPage
+        	at java.base/jdk.internal.loader.BuiltinClassLoader.loadClass(BuiltinClassLoader.java:580)
+        	at java.base/java.lang.ClassLoader.loadClass(ClassLoader.java:490)
+        	... 2 more
+  ↷ When they log in with "standard_user" and "secret_sauce" # stepdefinitions.LoginSteps.they_log_in_with(java.lang.String,java.lang.String)
+  ↷ Then the login should succeed                            # stepdefinitions.LoginSteps.the_login_should_succeed()
+
+        Embedding User attempts to log in [image/png 29904 bytes]
+
+
+Scenario Outline: User attempts to log in                 # src/test/resources/features/login.feature:11
+19:20:39.372 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Navigating to login page: https://www.saucedemo.com
+  ✘ Given the user is on the login page                   # stepdefinitions.LoginSteps.the_user_is_on_the_login_page()
+        java.lang.NoClassDefFoundError: web/pages/LoginPage
+        	at stepdefinitions.LoginSteps.the_user_is_on_the_login_page(LoginSteps.java:29)
+        	at ✽.the user is on the login page(file:///C:/Users/nagar/PayWrightWorkSpaceMaven/src/test/resources/features/login.feature:4)
+        Caused by: java.lang.ClassNotFoundException: web.pages.LoginPage
+        	... 2 more
+  ↷ When they log in with "invalid_user" and "wrong_pass" # stepdefinitions.LoginSteps.they_log_in_with(java.lang.String,java.lang.String)
+  ↷ Then the login should fail                            # stepdefinitions.LoginSteps.the_login_should_fail()
+
+        Embedding User attempts to log in [image/png 29904 bytes]
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

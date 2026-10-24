@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="tests.api.UserApiTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-08-30T12:59:14.057Z" hostname="DELL" time="16.936">
+  <properties/>
+  <testcase name="createPostReturns201" classname="tests.api.UserApiTest" time="13.996"/>
+  <testcase name="getSingleUserReturns200" classname="tests.api.UserApiTest" time="0.975"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

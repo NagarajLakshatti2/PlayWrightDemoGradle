@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="runners.TestRunner" tests="2" skipped="0" failures="1" errors="0" timestamp="2026-08-30T12:59:14.939Z" hostname="DELL" time="226.267">
+  <properties/>
+  <testcase name="runScenario[0](&quot;User attempts to log in&quot;, &quot;Login&quot;)" classname="runners.TestRunner" time="118.411"/>
+  <testcase name="runScenario[1](&quot;User attempts to log in&quot;, &quot;Login&quot;)" classname="runners.TestRunner" time="101.817">
+    <failure message="com.microsoft.playwright.TimeoutError: Error {&#10;  message='Timeout 90000ms exceeded.&#10;  name='TimeoutError&#10;  stack='TimeoutError: Timeout 90000ms exceeded.&#10;    at _ProgressController.run (C:\Users\nagar\AppData\Local\Temp\playwright-java-11112541047422604549\package\lib\coreBundle.js:12135:32)&#10;    at DispatcherConnection.dispatch (C:\Users\nagar\AppData\Local\Temp\playwright-java-11112541047422604549\package\lib\coreBundle.js:18775:44)&#10;}&#10;Call log:&#10;-   - waiting for locator(&quot;#login-button&quot;)&#10;-     - locator resolved to &lt;input type=&quot;submit&quot; value=&quot;Login&quot; id=&quot;login-button&quot; name=&quot;login-button&quot; data-test=&quot;login-button&quot; class=&quot;submit-button btn_action&quot;/&gt;&#10;-   - attempting click action&#10;-     - waiting for element to be visible, enabled and stable&#10;-     - element is not stable&#10;-   - retrying click action&#10;-     - waiting for element to be visible, enabled and stable&#10;-     - element is visible, enabled and stable&#10;-     - scrolling into view if needed&#10;-     - done scrolling&#10;-     - performing click action&#10;" type="com.microsoft.playwright.TimeoutError">com.microsoft.playwright.TimeoutError: Error {
+  message='Timeout 90000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 90000ms exceeded.
+    at _ProgressController.run (C:\Users\nagar\AppData\Local\Temp\playwright-java-11112541047422604549\package\lib\coreBundle.js:12135:32)
+    at DispatcherConnection.dispatch (C:\Users\nagar\AppData\Local\Temp\playwright-java-11112541047422604549\package\lib\coreBundle.js:18775:44)
+}
+Call log:
+-   - waiting for locator(&quot;#login-button&quot;)
+-     - locator resolved to &lt;input type=&quot;submit&quot; value=&quot;Login&quot; id=&quot;login-button&quot; name=&quot;login-button&quot; data-test=&quot;login-button&quot; class=&quot;submit-button btn_action&quot;/&gt;
+-   - attempting click action
+-     - waiting for element to be visible, enabled and stable
+-     - element is not stable
+-   - retrying click action
+-     - waiting for element to be visible, enabled and stable
+-     - element is visible, enabled and stable
+-     - scrolling into view if needed
+-     - done scrolling
+-     - performing click action
+
+	at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:52)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:147)
+	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:136)
+	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:133)
+	at com.microsoft.playwright.impl.FrameImpl.clickImpl(FrameImpl.java:244)
+	at com.microsoft.playwright.impl.LocatorImpl.click(LocatorImpl.java:173)
+	at com.microsoft.playwright.Locator.click(Locator.java:2837)
+	at web.pages.BasePage.click(BasePage.java:12)
+	at web.pages.LoginPage.loginAs(LoginPage.java:17)
+	at stepdefinitions.LoginSteps.they_log_in_with(LoginSteps.java:37)
+	at ✽.they log in with &quot;invalid_user&quot; and &quot;wrong_pass&quot;(file:///C:/Users/nagar/PayWrightWorkSpaceMaven/src/test/resources/features/login.feature:5)
+Caused by: com.microsoft.playwright.TimeoutError: Error {
+  message='Timeout 90000ms exceeded.
+  name='TimeoutError
+  stack='TimeoutError: Timeout 90000ms exceeded.
+    at _ProgressController.run (C:\Users\nagar\AppData\Local\Temp\playwright-java-11112541047422604549\package\lib\coreBundle.js:12135:32)
+    at DispatcherConnection.dispatch (C:\Users\nagar\AppData\Local\Temp\playwright-java-11112541047422604549\package\lib\coreBundle.js:18775:44)
+}
+Call log:
+-   - waiting for locator(&quot;#login-button&quot;)
+-     - locator resolved to &lt;input type=&quot;submit&quot; value=&quot;Login&quot; id=&quot;login-button&quot; name=&quot;login-button&quot; data-test=&quot;login-button&quot; class=&quot;submit-button btn_action&quot;/&gt;
+-   - attempting click action
+-     - waiting for element to be visible, enabled and stable
+-     - element is not stable
+-   - retrying click action
+-     - waiting for element to be visible, enabled and stable
+-     - element is visible, enabled and stable
+-     - scrolling into view if needed
+-     - done scrolling
+-     - performing click action
+
+	at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:273)
+	at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:229)
+	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:145)
+	... 9 more
+</failure>
+  </testcase>
+  <system-out><![CDATA[
+Scenario Outline: User attempts to log in                    # src/test/resources/features/login.feature:10
+18:29:22.250 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - === Running against environment: DEV | browser=FIREFOX | base.url=https://www.saucedemo.com | api.base.url=https://jsonplaceholder.typicode.com ===
+
+Scenario Outline: User attempts to log in                 # src/test/resources/features/login.feature:11
+18:31:25.517 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Navigating to login page: https://www.saucedemo.com
+  ✔ Given the user is on the login page                   # stepdefinitions.LoginSteps.the_user_is_on_the_login_page()
+18:31:29.744 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Attempting login with username: invalid_user
+  ✘ When they log in with "invalid_user" and "wrong_pass" # stepdefinitions.LoginSteps.they_log_in_with(java.lang.String,java.lang.String)
+        com.microsoft.playwright.TimeoutError: Error {
+          message='Timeout 90000ms exceeded.
+          name='TimeoutError
+          stack='TimeoutError: Timeout 90000ms exceeded.
+            at _ProgressController.run (C:\Users\nagar\AppData\Local\Temp\playwright-java-11112541047422604549\package\lib\coreBundle.js:12135:32)
+            at DispatcherConnection.dispatch (C:\Users\nagar\AppData\Local\Temp\playwright-java-11112541047422604549\package\lib\coreBundle.js:18775:44)
+        }
+        Call log:
+        -   - waiting for locator("#login-button")
+        -     - locator resolved to <input type="submit" value="Login" id="login-button" name="login-button" data-test="login-button" class="submit-button btn_action"/>
+        -   - attempting click action
+        -     - waiting for element to be visible, enabled and stable
+        -     - element is not stable
+        -   - retrying click action
+        -     - waiting for element to be visible, enabled and stable
+        -     - element is visible, enabled and stable
+        -     - scrolling into view if needed
+        -     - done scrolling
+        -     - performing click action
+        
+        	at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:52)
+        	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:147)
+        	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:136)
+        	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:133)
+        	at com.microsoft.playwright.impl.FrameImpl.clickImpl(FrameImpl.java:244)
+        	at com.microsoft.playwright.impl.LocatorImpl.click(LocatorImpl.java:173)
+        	at com.microsoft.playwright.Locator.click(Locator.java:2837)
+        	at web.pages.BasePage.click(BasePage.java:12)
+        	at web.pages.LoginPage.loginAs(LoginPage.java:17)
+        	at stepdefinitions.LoginSteps.they_log_in_with(LoginSteps.java:37)
+        	at ✽.they log in with "invalid_user" and "wrong_pass"(file:///C:/Users/nagar/PayWrightWorkSpaceMaven/src/test/resources/features/login.feature:5)
+        Caused by: com.microsoft.playwright.TimeoutError: Error {
+          message='Timeout 90000ms exceeded.
+          name='TimeoutError
+          stack='TimeoutError: Timeout 90000ms exceeded.
+            at _ProgressController.run (C:\Users\nagar\AppData\Local\Temp\playwright-java-11112541047422604549\package\lib\coreBundle.js:12135:32)
+            at DispatcherConnection.dispatch (C:\Users\nagar\AppData\Local\Temp\playwright-java-11112541047422604549\package\lib\coreBundle.js:18775:44)
+        }
+        Call log:
+        -   - waiting for locator("#login-button")
+        -     - locator resolved to <input type="submit" value="Login" id="login-button" name="login-button" data-test="login-button" class="submit-button btn_action"/>
+        -   - attempting click action
+        -     - waiting for element to be visible, enabled and stable
+        -     - element is not stable
+        -   - retrying click action
+        -     - waiting for element to be visible, enabled and stable
+        -     - element is visible, enabled and stable
+        -     - scrolling into view if needed
+        -     - done scrolling
+        -     - performing click action
+        
+        	at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:273)
+        	at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:229)
+        	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:145)
+        	... 9 more
+  ↷ Then the login should fail                            # stepdefinitions.LoginSteps.the_login_should_fail()
+
+        Embedding User attempts to log in [image/png 27123 bytes]
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

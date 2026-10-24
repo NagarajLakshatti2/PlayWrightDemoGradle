@@ -325,3 +325,13 @@
 2026-08-30 19:21:57.304 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Attempting login with username: standard_user
 2026-08-30 19:22:22.595 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Navigating to login page: https://www.saucedemo.com
 2026-08-30 19:22:24.549 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Attempting login with username: invalid_user
+2026-08-30 20:17:45.254 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - === Running against environment: DEV | browser=CHROMIUM | base.url=https://www.saucedemo.com | api.base.url=https://jsonplaceholder.typicode.com ===
+2026-08-30 20:18:05.013 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Navigating to login page: https://www.saucedemo.com
+2026-08-30 20:18:06.145 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Attempting login with username: standard_user
+2026-08-30 20:18:11.608 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Navigating to login page: https://www.saucedemo.com
+2026-08-30 20:18:12.603 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Attempting login with username: invalid_user
+2026-08-30 20:18:49.357 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - === Running against environment: DEV | browser=CHROMIUM | base.url=https://www.saucedemo.com | api.base.url=https://jsonplaceholder.typicode.com ===
+2026-08-30 20:19:02.415 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Navigating to login page: https://www.saucedemo.com
+2026-08-30 20:19:03.337 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Attempting login with username: standard_user
+2026-08-30 20:19:08.053 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Navigating to login page: https://www.saucedemo.com
+2026-08-30 20:19:08.885 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Attempting login with username: invalid_user

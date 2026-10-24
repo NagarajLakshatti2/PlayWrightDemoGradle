@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - All Results</title>
+<link href="css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="css/style.css" rel="stylesheet" type="text/css"/>
+<script src="js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>All Results</h1>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a class="failureGroup" href="#">Gradle Test Run :test</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Gradle Test Run :test</h2>
+<h1>Gradle Test Run :test</h1>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a class="" href="#">summary</a>
+</li>
+<li>
+<a class="" href="#">standard output</a>
+</li>
+</ul>
+<div class="tab">
+<h2>summary</h2>
+<div>
+<div class="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox">
+<div class="counter">4</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox">
+<div class="counter">2</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox">
+<div class="counter">0</div>
+<p>skipped</p>
+</div>
+</td>
+<td>
+<div class="infoBox duration">
+<div class="counter">1m52.76s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox failures successRate">
+<div class="percent">50%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div class="tab-container">
+<ul class="tabLinks">
+<li>
+<a class="" href="#">Failed</a>
+</li>
+<li>
+<a class="" href="#">All</a>
+</li>
+</ul>
+<div class="tab">
+<h2>Failed</h2>
+<table class="test-results">
+<thead>
+<tr>
+<th>Child</th>
+<th hidden="">Name</th>
+<th>Tests</th>
+<th>Failures</th>
+<th>Skipped</th>
+<th>Duration</th>
+<th>Success rate</th>
+</tr>
+</thead>
+<tr>
+<td class="failures">
+<a href="runners.TestRunner/index.html">runners.TestRunner</a>
+</td>
+<td class="path" hidden="">runners.TestRunner</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>1m46.21s</td>
+<td class="failures">0%</td>
+</tr>
+</table>
+</div>
+<div class="tab">
+<h2>All</h2>
+<table class="test-results">
+<thead>
+<tr>
+<th>Child</th>
+<th hidden="">Name</th>
+<th>Tests</th>
+<th>Failures</th>
+<th>Skipped</th>
+<th>Duration</th>
+<th>Success rate</th>
+</tr>
+</thead>
+<tr>
+<td class="failures">
+<a href="runners.TestRunner/index.html">runners.TestRunner</a>
+</td>
+<td class="path" hidden="">runners.TestRunner</td>
+<td>2</td>
+<td>2</td>
+<td>0</td>
+<td>1m46.21s</td>
+<td class="failures">0%</td>
+</tr>
+<tr>
+<td class="success">
+<a href="tests.api.UserApiTest/index.html">tests.api.UserApiTest</a>
+</td>
+<td class="path" hidden="">tests.api.UserApiTest</td>
+<td>2</td>
+<td>0</td>
+<td>0</td>
+<td>1m7.28s</td>
+<td class="success">100%</td>
+</tr>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="tab">
+<h2>standard output</h2>
+<span class="code">
+<pre id="root-0-test-stdout-Gradle Test Run :test">  ✘ When they log in with &quot;standard_user&quot; and &quot;secret_sauce&quot; # stepdefinitions.LoginSteps.they_log_in_with(java.lang.String,java.lang.String)
+        com.microsoft.playwright.TimeoutError: Error {
+          message='Timeout 10000ms exceeded.
+          name='TimeoutError
+          stack='TimeoutError: Timeout 10000ms exceeded.
+            at _ProgressController.run (C:\Users\nagar\AppData\Local\Temp\playwright-java-4492913494104849171\package\lib\coreBundle.js:12135:32)
+            at DispatcherConnection.dispatch (C:\Users\nagar\AppData\Local\Temp\playwright-java-4492913494104849171\package\lib\coreBundle.js:18775:44)
+        }
+        Call log:
+        -   - waiting for locator(&quot;#login-button&quot;)
+        -     - locator resolved to &lt;input type=&quot;submit&quot; value=&quot;Login&quot; id=&quot;login-button&quot; name=&quot;login-button&quot; data-test=&quot;login-button&quot; class=&quot;submit-button btn_action&quot;/&gt;
+        -   - attempting click action
+        -     - waiting for element to be visible, enabled and stable
+        
+        	at com.microsoft.playwright.impl.WaitableResult.get(WaitableResult.java:52)
+        	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:147)
+        	at com.microsoft.playwright.impl.Connection.sendMessage(Connection.java:136)
+        	at com.microsoft.playwright.impl.ChannelOwner.sendMessage(ChannelOwner.java:133)
+        	at com.microsoft.playwright.impl.FrameImpl.clickImpl(FrameImpl.java:244)
+        	at com.microsoft.playwright.impl.LocatorImpl.click(LocatorImpl.java:173)
+        	at web.pages.BasePage.click(BasePage.java:14)
+        	at web.pages.LoginPage.loginAs(LoginPage.java:17)
+        	at stepdefinitions.LoginSteps.they_log_in_with(LoginSteps.java:37)
+        	at ✽.they log in with &quot;standard_user&quot; and &quot;secret_sauce&quot;(file:///C:/Users/nagar/PayWrightWorkSpaceMaven/src/test/resources/features/login.feature:5)
+        Caused by: com.microsoft.playwright.TimeoutError: Error {
+          message='Timeout 10000ms exceeded.
+          name='TimeoutError
+          stack='TimeoutError: Timeout 10000ms exceeded.
+            at _ProgressController.run (C:\Users\nagar\AppData\Local\Temp\playwright-java-4492913494104849171\package\lib\coreBundle.js:12135:32)
+            at DispatcherConnection.dispatch (C:\Users\nagar\AppData\Local\Temp\playwright-java-4492913494104849171\package\lib\coreBundle.js:18775:44)
+        }
+        Call log:
+        -   - waiting for locator(&quot;#login-button&quot;)
+        -     - locator resolved to &lt;input type=&quot;submit&quot; value=&quot;Login&quot; id=&quot;login-button&quot; name=&quot;login-button&quot; data-test=&quot;login-button&quot; class=&quot;submit-button btn_action&quot;/&gt;
+        -   - attempting click action
+        -     - waiting for element to be visible, enabled and stable
+        
+        	at com.microsoft.playwright.impl.Connection.dispatch(Connection.java:273)
+        	at com.microsoft.playwright.impl.Connection.processOneMessage(Connection.java:229)
+        	at com.microsoft.playwright.impl.ChannelOwner.runUntil(ChannelOwner.java:145)
+        	... 8 more
+  ↷ Then the login should succeed                            # stepdefinitions.LoginSteps.the_login_should_succeed()
+
+        Embedding User attempts to log in [image/png 27363 bytes]
+
+</pre>
+<button class="clipboard-copy-btn" aria-label="Copy to clipboard" data-copy-element-id="root-0-test-stdout-Gradle Test Run :test">Copy</button>
+</span>
+</div>
+</div>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="https://www.gradle.org">Gradle 9.3.0</a> at 30 Aug 2026, 7:22:39 pm</p>
+</div>
+</div>
+</body>
+</html>

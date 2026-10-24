@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="tests.api.UserApiTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2026-08-30T13:50:56.890Z" hostname="DELL" time="39.675">
+  <properties/>
+  <testcase name="createPostReturns201" classname="tests.api.UserApiTest" time="13.868"/>
+  <testcase name="getSingleUserReturns200" classname="tests.api.UserApiTest" time="22.402"/>
+  <system-out><![CDATA[19:21:28.579 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Navigating to login page: https://www.saucedemo.com
+  ✔ Given the user is on the login page                      # stepdefinitions.LoginSteps.the_user_is_on_the_login_page()
+19:21:32.218 [TestNG-tests-2] INFO  [User attempts to log in] stepdefinitions.LoginSteps - Attempting login with username: standard_user
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
